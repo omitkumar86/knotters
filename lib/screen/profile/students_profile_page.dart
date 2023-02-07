@@ -518,7 +518,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
 
                                       /// Skills
                                       Container(
-                                        height: 150,
+                                        
                                         width:
                                             MediaQuery.of(context).size.width -
                                                 5,
@@ -597,6 +597,186 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                                       spacing: 2,
                                                       children: [
                                                         RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
+                                                          height: 30,
+                                                          radius: 25,
+                                                          widget: Center(
+                                                              child: Text(
+                                                            "Graphics Design",
+                                                            style: myStyle(
+                                                              16,
+                                                              secondaryColorDark,
+                                                              FontWeight.normal,
+                                                            ),
+                                                          )),
+                                                        ),RoundedContainerWithText(
                                                           height: 30,
                                                           radius: 25,
                                                           widget: Center(
