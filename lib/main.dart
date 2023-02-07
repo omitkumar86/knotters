@@ -27,6 +27,7 @@ import 'package:knotters/screen/on_boarding/on_boarding2.dart';
 import 'package:knotters/screen/on_boarding/on_boarding3.dart';
 import 'package:knotters/screen/on_boarding/splash_screen.dart';
 import 'package:knotters/screen/profile/students_profile.dart';
+import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/extra.dart';
 import 'package:knotters/widget/extra2.dart';

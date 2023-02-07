@@ -72,7 +72,7 @@ class AppbarButton extends StatelessWidget {
           maxRadius: 15,
           backgroundColor: Colors.white,
           child: Icon(
-            Icons.arrow_back_ios,
+            Icons.arrow_back_ios_new,
             color: Colors.black87,
             size: 14,
           ),

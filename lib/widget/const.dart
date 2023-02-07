@@ -61,9 +61,8 @@ final spinkit = SpinKitFadingCircle(
 //  controller: AnimationController(vsync: this, duration: const Duration(milliseconds: 1200)),
   itemBuilder: (BuildContext context, int index) {
     return DecoratedBox(
-
       decoration: BoxDecoration(
-
+        shape: BoxShape.circle,
         color: index.isEven ? primaryColor : primaryColorLight,
       ),
     );
