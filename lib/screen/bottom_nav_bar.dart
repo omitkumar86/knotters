@@ -6,6 +6,7 @@ import 'package:knotters/screen/nav_bar/sme_gigs.dart';
 import 'package:knotters/screen/nav_bar/growth.dart';
 import 'package:knotters/screen/nav_bar/home_page.dart';
 import 'package:knotters/screen/nav_bar/student_gigs.dart';
+import 'package:knotters/screen/profile/business_profile_page.dart';
 import 'package:knotters/screen/profile/students_profile.dart';
 import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
@@ -95,7 +96,23 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
                 mainAxisSize: MainAxisSize.min,
                 children: [
 
-                  AppbarButton(onTap: () {},),
+                  AppbarButton(onTap: () {
+                    showDialog(
+                        context: context,
+                        builder: (BuildContext context) {
+                          return AlertDialog(
+                            content: Container(
+                              width: double.maxFinite,
+                              child: Column(
+                                  mainAxisSize: MainAxisSize.min,
+                                  mainAxisAlignment: MainAxisAlignment.start,
+                                  children: <Widget>[
+                                    Text("About Our Platform")
+                                  ]),
+                            ),
+                          );
+                        });
+                  },),
                   SizedBox(width: 10,),
                   selectedItem == 0
                       ? SvgPicture.asset(
@@ -456,7 +473,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
                       : SmeGigsPage(),
                   HomePageDemo(),
                   GrowthPage(),
-                  StudentProfilePage(),
+                  accountType? StudentProfilePage():BusinessProfilePage(),
                 ],
                 onPageChanged: onPageChange,
               ),

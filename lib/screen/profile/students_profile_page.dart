@@ -17,7 +17,6 @@ class StudentProfilePage extends StatefulWidget {
 
 class _StudentProfilePageState extends State<StudentProfilePage> {
   int selectedItem = 0;
-
   /// tab
   TabController? _tabController;
   TabController? _projectDocController;
@@ -1340,139 +1339,139 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
       ),
     ));
   }
+}
 
-  Container ContainerWithContraints(
-      {Widget? widget,
+Container ContainerWithContraints(
+    {Widget? widget,
       double? width,
-        double? height,
+      double? height,
       double? opacity = 1,
       Color? color = Colors.white}) {
-    return Container(
-      padding: EdgeInsets.all(5),
-      width: width,
-      height: height,
-      constraints: BoxConstraints(
-        maxHeight: double.infinity,
-      ),
-      decoration: BoxDecoration(
-          color: color,
-          border: Border.all(color: primaryColor.withOpacity(opacity!)),
-          borderRadius: BorderRadius.all(Radius.circular(5))),
-      child: widget,
-    );
-  }
+  return Container(
+    padding: EdgeInsets.all(5),
+    width: width,
+    height: height,
+    constraints: BoxConstraints(
+      maxHeight: double.infinity,
+    ),
+    decoration: BoxDecoration(
+        color: color,
+        border: Border.all(color: primaryColor.withOpacity(opacity!)),
+        borderRadius: BorderRadius.all(Radius.circular(5))),
+    child: widget,
+  );
+}
 
-  Widget BorderButton(
-      {VoidCallback? onTap, Widget? title, double? height, double? width}) {
-    return SizedBox(
-      height: height,
-      width: width,
-      child: InkWell(
-        onTap: onTap,
-        child: Container(
-          alignment: Alignment.center,
-          child: title,
-          padding: EdgeInsets.symmetric(vertical: 0),
-          width: double.infinity,
-          decoration: BoxDecoration(
-              border: Border.all(color: primaryColor, width: 1),
-              borderRadius: BorderRadius.circular(8)),
-        ),
-      ),
-    );
-  }
-
-  Container CommonContainer({
-    BuildContext? context,
-    Widget? widget,
-    double? height,
-    double? radius,
-  }) {
-    return Container(
-      height: height,
-      width: MediaQuery.of(context!).size.width - 5,
-      // padding: EdgeInsets.all(10),
-      decoration: BoxDecoration(
-          border: Border.all(color: primaryColor),
-          color: Colors.white,
-          borderRadius: BorderRadius.all(Radius.circular(radius!))),
-      child: widget,
-    );
-  }
-
-  // 30, 50, 25
-  Container RoundedContainerWithText(
-      {double? height, double? radius, Widget? widget}) {
-    return Container(
-      height: height,
-      // width: width,
-      padding: EdgeInsets.all(5),
-      constraints: BoxConstraints(
-        maxWidth: 130,
-      ),
-      decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: primaryColor),
-          borderRadius: BorderRadius.all(Radius.circular(radius!))),
-      child: widget,
-    );
-  }
-
-  Padding CircleContainer({double? height, double? width, Widget? widget}) {
-    return Padding(
-      padding: EdgeInsets.all(5.0),
+Widget BorderButton(
+    {VoidCallback? onTap, Widget? title, double? height, double? width}) {
+  return SizedBox(
+    height: height,
+    width: width,
+    child: InkWell(
+      onTap: onTap,
       child: Container(
-        height: height,
-        width: width,
+        alignment: Alignment.center,
+        child: title,
+        padding: EdgeInsets.symmetric(vertical: 0),
+        width: double.infinity,
         decoration: BoxDecoration(
-          color: Colors.white,
-          border: Border.all(color: secondaryColor),
-          shape: BoxShape.circle,
-        ),
-        child: widget,
+            border: Border.all(color: primaryColor, width: 1),
+            borderRadius: BorderRadius.circular(8)),
       ),
-    );
-  }
+    ),
+  );
+}
 
-  Padding CircleContainerBadge(
-      {double? height, double? width, Widget? widget}) {
-    return Padding(
-      padding: EdgeInsets.all(5.0),
-      child: Stack(
-        children: [
-          Container(
-            height: height,
-            width: width,
+Container CommonContainer({
+  BuildContext? context,
+  Widget? widget,
+  double? height,
+  double? radius,
+}) {
+  return Container(
+    height: height,
+    width: MediaQuery.of(context!).size.width - 5,
+    // padding: EdgeInsets.all(10),
+    decoration: BoxDecoration(
+        border: Border.all(color: primaryColor),
+        color: Colors.white,
+        borderRadius: BorderRadius.all(Radius.circular(radius!))),
+    child: widget,
+  );
+}
+
+// 30, 50, 25
+Container RoundedContainerWithText(
+    {double? height, double? radius, Widget? widget}) {
+  return Container(
+    height: height,
+    // width: width,
+    padding: EdgeInsets.all(5),
+    constraints: BoxConstraints(
+      maxWidth: 130,
+    ),
+    decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: primaryColor),
+        borderRadius: BorderRadius.all(Radius.circular(radius!))),
+    child: widget,
+  );
+}
+
+Padding CircleContainer({double? height, double? width, Widget? widget}) {
+  return Padding(
+    padding: EdgeInsets.all(5.0),
+    child: Container(
+      height: height,
+      width: width,
+      decoration: BoxDecoration(
+        color: Colors.white,
+        border: Border.all(color: secondaryColor),
+        shape: BoxShape.circle,
+      ),
+      child: widget,
+    ),
+  );
+}
+
+Padding CircleContainerBadge(
+    {double? height, double? width, Widget? widget}) {
+  return Padding(
+    padding: EdgeInsets.all(5.0),
+    child: Stack(
+      children: [
+        Container(
+          height: height,
+          width: width,
+          decoration: BoxDecoration(
+            color: Colors.white,
+            border: Border.all(color: secondaryColor),
+            shape: BoxShape.circle,
+          ),
+          child: widget,
+        ),
+        Positioned(
+          // top: 0,
+          right: 0,
+          // left: 35,
+          // bottom: 40,
+          child: Container(
+            height: 30,
+            width: 30,
             decoration: BoxDecoration(
-              color: Colors.white,
-              border: Border.all(color: secondaryColor),
+              color: primaryColor,
+              border: Border.all(color: primaryColor),
               shape: BoxShape.circle,
             ),
-            child: widget,
-          ),
-          Positioned(
-            // top: 0,
-            right: 0,
-            // left: 35,
-            // bottom: 40,
-            child: Container(
-              height: 30,
-              width: 30,
-              decoration: BoxDecoration(
-                color: primaryColor,
-                border: Border.all(color: primaryColor),
-                shape: BoxShape.circle,
-              ),
-              child: Center(
-                child: Text(
-                  "4.5",
-                  style: myStyle(15, Colors.white),
-                ),
+            child: Center(
+              child: Text(
+                "4.5",
+                style: myStyle(15, Colors.white),
               ),
             ),
           ),
-        ],
-      ),
-    );
-  }
+        ),
+      ],
+    ),
+  );
 }
