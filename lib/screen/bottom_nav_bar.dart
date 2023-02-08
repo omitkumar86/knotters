@@ -661,7 +661,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
                   accountType ? StudentGigsPage() : SmeGigsPage(),
                   HomePageDemo(),
                   GrowthPage(),
-                  accountType ? StudentProfilePage() : BusinessProfilePage(),
+                  accountType? BusinessProfilePage():StudentProfilePage(),
                 ],
                 onPageChanged: onPageChange,
               ),

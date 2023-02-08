@@ -1,7 +1,7 @@
 class StudentProfileModel {
   User? user;
   List<Skills>? skills;
-  List<Null>? uploadedFiles;
+  List<dynamic>? uploadedFiles;
 
   StudentProfileModel({this.user, this.skills, this.uploadedFiles});
 
@@ -14,9 +14,9 @@ class StudentProfileModel {
       });
     }
     if (json['uploadedFiles'] != null) {
-      uploadedFiles = <Null>[];
+      uploadedFiles = <dynamic>[];
       json['uploadedFiles'].forEach((v) {
-        //uploadedFiles!.add(new Null.fromJson(v));
+        //uploadedFiles!.add(new dynamic.fromJson(v));
       });
     }
   }
@@ -30,7 +30,7 @@ class StudentProfileModel {
       data['skills'] = this.skills!.map((v) => v.toJson()).toList();
     }
     if (this.uploadedFiles != null) {
-      //data['uploadedFiles'] = this.uploadedFiles!.map((v) => v.toJson()).toList();
+      data['uploadedFiles'] = this.uploadedFiles!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -41,14 +41,14 @@ class User {
   int? userDetailsId;
   String? name;
   String? email;
-  Null? emailVerifiedAt;
-  Null? twoFactorConfirmedAt;
+  dynamic? emailVerifiedAt;
+  dynamic? twoFactorConfirmedAt;
   int? userRoleType;
-  Null? accountType;
+  dynamic? accountType;
   int? accountStatus;
   int? submitStatus;
-  Null? currentTeamId;
-  Null? profilePhotoPath;
+  dynamic? currentTeamId;
+  dynamic? profilePhotoPath;
   String? createdAt;
   String? updatedAt;
   int? activeStatus;
@@ -56,7 +56,7 @@ class User {
   int? darkMode;
   String? messengerColor;
   UserDetails? userDetails;
-  List<Null>? tradeLicenseFiles;
+  List<dynamic>? tradeLicenseFiles;
 
   User(
       {this.id,
@@ -103,9 +103,9 @@ class User {
         ? new UserDetails.fromJson(json['user_details'])
         : null;
     if (json['trade_license_files'] != null) {
-      tradeLicenseFiles = <Null>[];
+      tradeLicenseFiles = <dynamic>[];
       json['trade_license_files'].forEach((v) {
-       // tradeLicenseFiles!.add(new Null.fromJson(v));
+       //tradeLicenseFiles!.add(new dynamic.fromJson(v));
       });
     }
   }
@@ -134,8 +134,8 @@ class User {
       data['user_details'] = this.userDetails!.toJson();
     }
     if (this.tradeLicenseFiles != null) {
-      //data['trade_license_files'] =
-          //this.tradeLicenseFiles!.map((v) => v.toJson()).toList();
+      data['trade_license_files'] =
+          this.tradeLicenseFiles!.map((v) => v.toJson()).toList();
     }
     return data;
   }
@@ -145,29 +145,29 @@ class UserDetails {
   int? id;
   String? firstName;
   String? lastName;
-  Null? surname;
-  Null? country;
-  Null? emirateStateName;
-  Null? phone;
+  dynamic? surname;
+  dynamic? country;
+  dynamic? emirateStateName;
+  dynamic? phone;
   String? profileImage;
-  Null? gender;
-  Null? educationalStatus;
-  Null? universityName;
-  Null? freelancerJobTitle;
-  Null? freelancerLanguage;
-  Null? bankAccountNo;
-  Null? bankName;
-  Null? emiratesIdNo;
-  Null? description;
-  Null? workingType;
-  Null? companyName;
-  Null? companyEstablishYear;
-  Null? companyStatus;
-  Null? businessName;
-  Null? companySize;
-  Null? companySpeciality;
-  Null? companyService;
-  Null? tradeLicenseNo;
+  dynamic? gender;
+  dynamic? educationalStatus;
+  dynamic? universityName;
+  dynamic? freelancerJobTitle;
+  dynamic? freelancerLanguage;
+  dynamic? bankAccountNo;
+  dynamic? bankName;
+  dynamic? emiratesIdNo;
+  dynamic? description;
+  dynamic? workingType;
+  dynamic? companyName;
+  dynamic? companyEstablishYear;
+  dynamic? companyStatus;
+  dynamic? businessName;
+  dynamic? companySize;
+  dynamic? companySpeciality;
+  dynamic? companyService;
+  dynamic? tradeLicenseNo;
   String? createdAt;
   String? updatedAt;
 
