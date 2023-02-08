@@ -24,7 +24,7 @@ class BottomNavBarPage extends StatefulWidget {
 class _BottomNavBarPageState extends State<BottomNavBarPage> {
   GlobalKey<ScaffoldState> scaffoldKey = GlobalKey();
   AuthProvider authProvider = AuthProvider();
-  bool? acType, isColor;
+  bool? acType;
   int selectedItem = 0;
 
   void getAccountType() async {
