@@ -412,8 +412,8 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> {
                                                       itemBuilder:
                                                           (context, index) {
                                                         return CircleContainer(
-                                                          height: 25,
-                                                          width: 57,
+                                                          height: 45,
+                                                          width: 45,
                                                           widget: Center(
                                                             child: Text("R"),
                                                           ),

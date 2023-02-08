@@ -10,8 +10,8 @@ final scaffoldColor = Color(0xFFEFEDE4);
 final secondaryColor = Color(0xFFE5E4E4);
 final secondaryColorDark = Color(0xFF232323);
 final buttonBackgroundColor = Color(0xFFEBEBEB);
-
 final textColorLight = Color(0xFF979793);
+final primaryWhite = Colors.white;
 
 
 myStyle (double size,[Color? color,FontWeight ?fw]){
@@ -20,6 +20,13 @@ myStyle (double size,[Color? color,FontWeight ?fw]){
     color: color,
     fontWeight: fw,
     height: 1.1
+  );
+}myStylePoppins (double size,[Color? color,FontWeight ?fw]){
+  return GoogleFonts.poppins(
+    fontSize: size,
+    color: color,
+    fontWeight: fw,
+    height: 1.1,
   );
 }
 

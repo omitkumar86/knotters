@@ -54,15 +54,12 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
           child: Column(
             children: [
               Container(
+                margin: EdgeInsets.symmetric(vertical: 20),
+                width: double.infinity,
+                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                padding: EdgeInsets.all(15),
-                // constraints: BoxConstraints(
-                //   minHeight: MediaQuery.of(context).size.height - 20,
-                //   minWidth: MediaQuery.of(context).size.width - 5,
-                //   maxHeight: double.infinity,
-                // ),
                 child: Column(
                   children: [
                     Row(
@@ -518,7 +515,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
 
                                       /// Skills
                                       Container(
-                                        
+
                                         width:
                                             MediaQuery.of(context).size.width -
                                                 5,
@@ -866,8 +863,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return CircleContainer(
-                                                      height: 25,
-                                                      width: 57,
+                                                      height: 45,
+                                                      width: 45,
                                                       widget: Center(
                                                         child: Text("R"),
                                                       ),
@@ -885,7 +882,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                       ),
                                       CommonContainer(
                                         context: context,
-                                        height: 110,
+                                        height: 95,
                                         radius: 5,
                                         widget: Column(
                                           crossAxisAlignment:
@@ -895,6 +892,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                               padding: EdgeInsets.only(
                                                 left: 5.0,
                                                 top: 5,
+                                                bottom: 10,
                                               ),
                                               child: Text(
                                                 "COMPLETED COURSE",
@@ -917,8 +915,8 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                                   itemBuilder:
                                                       (context, index) {
                                                     return CircleContainerBadge(
-                                                      height: 70,
-                                                      width: 60,
+                                                      height: 45,
+                                                      width: 45,
                                                       widget: Center(
                                                         child: Text("R"),
                                                       ),
@@ -934,6 +932,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                                       SizedBox(
                                         height: 10,
                                       ),
+
                                       CommonContainer(
                                         context: context,
                                         height: 200,
@@ -1636,8 +1635,8 @@ Padding CircleContainerBadge(
           // left: 35,
           // bottom: 40,
           child: Container(
-            height: 30,
-            width: 30,
+            height: 20,
+            width: 20,
             decoration: BoxDecoration(
               color: primaryColor,
               border: Border.all(color: primaryColor),
@@ -1646,7 +1645,7 @@ Padding CircleContainerBadge(
             child: Center(
               child: Text(
                 "4.5",
-                style: myStyle(15, Colors.white),
+                style: myStyle(12, Colors.white),
               ),
             ),
           ),

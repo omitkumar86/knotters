@@ -8,8 +8,8 @@ import 'package:knotters/widget/extra.dart';
 import 'package:knotters/widget/extra.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-final String baseUrl = "https://knotter.learnwithmuhammadali.com/api/";
-final String imageUrl = "https://learnwithmuhammadali.com/";
+final String baseUrl = "https://knotters.ae/api/";
+final String imageUrl = "https://knotters.ae/";
 
 class CustomHttpRequest {
   static const Map<String, String> defaultHeader = {

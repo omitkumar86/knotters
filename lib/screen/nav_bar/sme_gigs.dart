@@ -48,7 +48,6 @@ class _SmeGigsPageState extends State<SmeGigsPage> {
           padding: EdgeInsets.symmetric(horizontal: 16),
           child: SingleChildScrollView(
             child: Column(
-
               children: [
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 20),
