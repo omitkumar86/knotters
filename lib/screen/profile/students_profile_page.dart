@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:instagram_mention/instagram_mention.dart';
 import 'package:knotters/provider/auth_provider.dart';
+import 'package:knotters/provider/student_profile_provider.dart';
 import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/custome_button.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
@@ -37,6 +38,13 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   // }
 
   @override
+  void initState() {
+    // TODO: implement initState
+    Provider.of<StudentProfileProvider>(context, listen: false).getStudentProfileData();
+    super.initState();
+  }
+
+  @override
   void dispose() {
     super.dispose();
   }
@@ -45,6 +53,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
+    final studentProfileList = Provider.of<StudentProfileProvider>(context).studentProfileList;
     return SafeArea(
         child: Scaffold(
       body: Container(
@@ -60,7 +69,7 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                 decoration: BoxDecoration(
                     color: Colors.white,
                     borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: Column(
+                child: studentProfileList==null?spinkit: Column(
                   children: [
                     Row(
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -132,22 +141,20 @@ class _StudentProfilePageState extends State<StudentProfilePage> {
                     SizedBox(
                       height: 10,
                     ),
-                    Text(
-                      "User ID",
+                    Text("User ID: ${studentProfileList[0].user!.id.toString()}",
                       style: myStyleBody(),
                     ),
                     SizedBox(
                       height: 5,
                     ),
                     Text(
-                      "MUHAMMAD BIN RASHID, 24",
+                      "${studentProfileList[0].user!.name.toString()}",
                       style: myStyleHeader(),
                     ),
                     SizedBox(
                       height: 5,
                     ),
-                    Text(
-                      "University of Abu Dhabi",
+                    Text("${studentProfileList[0].user!.userDetails!.universityName.toString()}",
                       style: myStyleBody(),
                     ),
                     SizedBox(

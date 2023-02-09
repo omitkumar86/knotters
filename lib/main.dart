@@ -1,8 +1,16 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:knotters/payment_method/add_money.dart';
+import 'package:knotters/payment_method/order_value.dart';
+import 'package:knotters/payment_method/payment_submit_code_page1.dart';
+import 'package:knotters/payment_method/payment_submit_code_page2.dart';
+import 'package:knotters/payment_method/payment_successful.dart';
+import 'package:knotters/payment_method/payment_successful_view_order.dart';
+import 'package:knotters/payment_method/select_payment_method.dart';
 import 'package:knotters/provider/auth_provider.dart';
 import 'package:knotters/provider/gig_provider.dart';
+import 'package:knotters/provider/student_profile_provider.dart';
 import 'package:knotters/screen/auth/choose_auth.dart';
 import 'package:knotters/screen/auth/forget_password/add_reset_otp_page.dart';
 import 'package:knotters/screen/auth/forget_password/create_new_password.dart';
@@ -31,6 +39,7 @@ import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/extra.dart';
 import 'package:knotters/widget/extra2.dart';
+import 'package:knotters/widget/extra_gig.dart';
 import 'package:provider/provider.dart';
 
 class MyHttpOverrides extends HttpOverrides{
@@ -70,9 +79,8 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) {  return authProvider;  }),
-        ChangeNotifierProvider(create: (_) {
-          return GigProvider();
-        }),
+        ChangeNotifierProvider(create: (_) {return GigProvider();}),
+        ChangeNotifierProvider(create: (_) {return StudentProfileProvider();}),
 
       ],
       child: MaterialApp(
@@ -110,7 +118,8 @@ class _MyAppState extends State<MyApp> {
             CreateGigPage.id: (context) => CreateGigPage(),
             BottomNavBarPage.id: (context) => BottomNavBarPage(),
           },
-          home: SplashScreen()),
+          home: PaymentSubmitCodePage2(),
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+
+
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -12,6 +14,8 @@ final secondaryColorDark = Color(0xFF232323);
 final buttonBackgroundColor = Color(0xFFEBEBEB);
 final textColorLight = Color(0xFF979793);
 final primaryWhite = Colors.white;
+final borderColor = Color(0xffD5D5D5);
+final primaryBlack = Colors.black;
 
 
 myStyle (double size,[Color? color,FontWeight ?fw]){
@@ -44,6 +48,15 @@ myStyleHeader ( ){
     fontWeight: FontWeight.w600,
     height: 1.1
   );
+}myStylePaymentHeader ( ){
+  return GoogleFonts.anekMalayalam(
+    fontSize: 20,
+    color: Colors.black,
+    fontWeight: FontWeight.w600,
+    height: 1.1,
+      wordSpacing: 1.1,
+      letterSpacing: 1
+  );
 }
 
 SizedBox buildContainer({IconButton? iconButton, double? radius, Color? color, double? sbHeight, double? sbWidth,}) {
@@ -70,7 +83,7 @@ final spinkit = SpinKitFadingCircle(
     return DecoratedBox(
       decoration: BoxDecoration(
         shape: BoxShape.circle,
-        color: index.isEven ? primaryColor : primaryColorLight,
+        color: primaryColor,
       ),
     );
   },
@@ -122,5 +135,54 @@ congratulationsDialog({BuildContext ?ctx, String? title, subTitle}) async {
         ),
       );
     },
+  );
+}
+
+continueButton(){
+  return SizedBox(
+    height: 49,
+    width: double.maxFinite,
+    child: InkWell(
+      onTap: (() {
+
+      }),
+      child: Container(
+        alignment: Alignment.center,
+        child: Text(
+          "Continue",
+          style: myStyle(
+              16,
+              Colors.white,
+              FontWeight.w400),
+        ),
+        padding:
+        EdgeInsets.symmetric(
+            vertical: 3),
+        width: double.infinity,
+        decoration: BoxDecoration(
+            color: primaryColor,
+            borderRadius:
+            BorderRadius
+                .circular(8)),
+      ),
+    ),
+  );
+}
+
+customRadioButton(){
+  return Container(
+    padding: EdgeInsets.all(1),
+    height: 15,
+    width: 15,
+    decoration: BoxDecoration(
+      shape: BoxShape.circle,
+      border: Border.all(color: borderColor),
+    ),
+    child: Container(
+      decoration: BoxDecoration(
+        shape: BoxShape.circle,
+        color: primaryWhite,
+      ),
+    ),
   );
 }

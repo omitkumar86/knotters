@@ -16,10 +16,9 @@ class StudentProfileHttpRequest{
       );
       var data = jsonDecode(responce.body.toString());
       print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb ${responce.body}");
-      for (var i in data) {
-        studentProfileModel = StudentProfileModel.fromJson(i);
+
+        studentProfileModel = StudentProfileModel.fromJson(data);
         studentProfileList.add(studentProfileModel);
-      }
       print("Name is -----------------${studentProfileList}");
       return studentProfileList;
     }
