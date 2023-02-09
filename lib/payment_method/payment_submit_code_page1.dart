@@ -60,6 +60,10 @@ class _PaymentSubmitCodePage1State extends State<PaymentSubmitCodePage1> {
                       ),
                     ],
                   ),),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 16,vertical: 50),
+                    child: continueButton(),
+                  ),
                 ],
               ),
             ),

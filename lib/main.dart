@@ -1,8 +1,10 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:knotters/miscellaneous_screen/privacy_policy_page.dart';
 import 'package:knotters/payment_method/add_money.dart';
 import 'package:knotters/payment_method/order_value.dart';
+import 'package:knotters/payment_method/payment_enter_pin.dart';
 import 'package:knotters/payment_method/payment_submit_code_page1.dart';
 import 'package:knotters/payment_method/payment_submit_code_page2.dart';
 import 'package:knotters/payment_method/payment_successful.dart';
@@ -118,7 +120,7 @@ class _MyAppState extends State<MyApp> {
             CreateGigPage.id: (context) => CreateGigPage(),
             BottomNavBarPage.id: (context) => BottomNavBarPage(),
           },
-          home: PaymentSubmitCodePage2(),
+          home: PrivacyPolicyPage(),
       ),
     );
   }
