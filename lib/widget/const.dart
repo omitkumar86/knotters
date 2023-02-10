@@ -357,7 +357,7 @@ customLogoutFunction(BuildContext context){
                   ),
                   InkWell(
                     onTap: () {
-                      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>SignInPage()));
+                      logoutAlert(context);
                     },
                     child: Container(
                       padding: EdgeInsets.symmetric(
@@ -386,6 +386,72 @@ customLogoutFunction(BuildContext context){
                       ),
                     ),
                   ),
+                ]),
+          ),
+        );
+      });
+}
+
+logoutAlert(BuildContext context){
+  showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          alignment: Alignment.topCenter,
+          content: Container(
+            width: double.maxFinite,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10),
+                    child: Text(
+                      "Log Out",
+                      style: myStylePoppins(14,
+                          primaryColor, FontWeight.w500),
+                    ),
+                  ),
+                  Divider(),
+                  SizedBox(height: 10,),
+                  Text("Are you sure you want to log out of your account", style: myStylePoppins(12, primaryBlack),
+                  textAlign: TextAlign.center,),
+                  SizedBox(height: 15,),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      InkWell(
+                        onTap: (){
+                          Navigator.of(context).pop();
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 20),
+                          alignment: Alignment.center,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: primaryColor.withOpacity(0.3)),
+                              borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
+                          child: Text("No Thanks", style: myStylePoppins(12, textColorLight),),
+                        ),
+                      ),
+                      InkWell(
+                        onTap: (){
+
+                        },
+                        child: Container(
+                          padding: EdgeInsets.symmetric(horizontal: 28),
+                          alignment: Alignment.center,
+                          height: 30,
+                          decoration: BoxDecoration(
+                              color: primaryColor,
+                              borderRadius: BorderRadius.all(Radius.circular(5))
+                          ),
+                          child: Text("Log Out", style: myStylePoppins(12, primaryWhite),),
+                        ),
+                      ),
+                    ],
+                  )
                 ]),
           ),
         );
