@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:knotters/screen/auth/choose_auth.dart';
 
 
 
@@ -437,7 +438,7 @@ logoutAlert(BuildContext context){
                       ),
                       InkWell(
                         onTap: (){
-
+                          Navigator.of(context).pushAndRemoveUntil(MaterialPageRoute(builder: (context)=>ChooseAuth()), (route) => false);
                         },
                         child: Container(
                           padding: EdgeInsets.symmetric(horizontal: 28),

@@ -75,8 +75,7 @@ class _StudentProfilePageState extends State<StudentProfilePage>with  SingleTick
     studentProfileList = Provider.of<StudentProfileProvider>(context).studentProfileList;
     return Scaffold(
       body: Container(
-        margin: EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-
+        margin: EdgeInsets.only(top: 10,left: 16,right: 16),
         child: NestedScrollView(
           controller: _scrollController,
           physics: NeverScrollableScrollPhysics(),

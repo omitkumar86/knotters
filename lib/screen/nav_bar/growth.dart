@@ -53,7 +53,6 @@ class _GrowthPageState extends State<GrowthPage>
     return Scaffold(
       body: Container(
         margin: EdgeInsets.symmetric(vertical: 12,horizontal: 16),
-
         child: NestedScrollView(
           controller: _scrollController,
           physics: NeverScrollableScrollPhysics(),
@@ -61,7 +60,7 @@ class _GrowthPageState extends State<GrowthPage>
             return [
               SliverToBoxAdapter(
                   child: Container(
-                    padding: EdgeInsets.only(top: 20,left: 20,right: 20,bottom: 20),
+                    margin: EdgeInsets.only(top: 10,left: 16,right: 16),
                     decoration: BoxDecoration(
                         color: Colors.white,
                         borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),
