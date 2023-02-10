@@ -163,21 +163,21 @@ class _StudentProfilePageState extends State<StudentProfilePage>with  SingleTick
                           height: 10,
                         ),
                         Text(
-                          "User ID",
+                          "User ID: ${studentProfileList[0].user!.id.toString()}",
                           style: myStyleBody(),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
-                          "Student",
+                          "${studentProfileList[0].user!.name.toString()}",
                           style: myStyleHeader(),
                         ),
                         SizedBox(
                           height: 5,
                         ),
                         Text(
-                          "University of Abu Dhabi",
+                          "${studentProfileList[0].user!.userDetails!.universityName.toString()}",
                           style: myStyleBody(),
                         ),
                         SizedBox(
