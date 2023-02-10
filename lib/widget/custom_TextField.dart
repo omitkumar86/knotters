@@ -124,7 +124,7 @@ class CustomeTextField2 extends StatelessWidget {
         onTap: onTap,
         keyboardType: keyType,
         validator: validator,
-        maxLines: maxLine ?? 1,
+       // maxLines: maxLine ?? 1,
         controller: controller,
         style: myStyle(14.0, Colors.black54),
         decoration: InputDecoration(

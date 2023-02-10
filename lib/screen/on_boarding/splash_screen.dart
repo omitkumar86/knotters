@@ -27,7 +27,8 @@ class _SplashScreenState extends State<SplashScreen> {
       accountType ==false?Provider.of<AuthProvider>(context ,listen: false).setAccountType=false:Provider.of<AuthProvider>(context,listen: false ).setAccountType=true;
      print("Account type is${Provider.of<AuthProvider>(context,listen: false).getAccountType}");
      print("Account Token is${Provider.of<AuthProvider>(context,listen: false).getToken}");
-      Navigator.of(context).pushNamedAndRemoveUntil(ChooseAuth.id, (route) => false);
+      Navigator.of(context).pushNamedAndRemoveUntil(BottomNavBarPage.id, (route) => false);
+      //Navigator.of(context).pushNamedAndRemoveUntil(ChooseAuth.id, (route) => false);
     }else{
       Future.delayed(Duration(milliseconds: 1000),(){
         Navigator.of(context).pushReplacementNamed(OnBoarding1.id);

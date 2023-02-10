@@ -139,7 +139,7 @@ class _StudentsProfileState extends State<StudentsProfile> with TickerProviderSt
                   //   height: 10,
                   // ),
                   SingleChildScrollView(
-                    // physics: NeverScrollableScrollPhysics(),
+                    physics: NeverScrollableScrollPhysics(),
                     child: Container(
                         decoration: BoxDecoration(
                             color: Colors.white,

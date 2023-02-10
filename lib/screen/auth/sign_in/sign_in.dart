@@ -58,7 +58,7 @@ class _SignInPageState extends State<SignInPage> {
        sharedPreferences = await SharedPreferences.getInstance();
        sharedPreferences!.setString("token", data["auth_token"]);
        //sharedPreferences!.setString(appAccountType, data["user"]["user_role_type"].toString());
-       data["user"]["user_role_type"]=="1"?Provider.of<AuthProvider>(context ,listen: false).setAccountType=true:Provider.of<AuthProvider>(context,listen: false ).setAccountType=false;
+       data["user"]["user_role_type"]== 1?Provider.of<AuthProvider>(context ,listen: false).setAccountType=true:Provider.of<AuthProvider>(context,listen: false ).setAccountType=false;
 
        print("${Provider.of<AuthProvider>(context,listen: false).getAccountType}");
        Navigator.of(context).pushNamedAndRemoveUntil(BottomNavBarPage.id, (route) => false);

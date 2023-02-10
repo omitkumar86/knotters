@@ -320,7 +320,7 @@ class _CreateGigPageState extends State<CreateGigPage> {
                   ),
                   CustomeTextField2(
                     textInputAction: TextInputAction.next,
-                    maxLine: 4,
+                   // maxLine: 4,
                     // focusNode: bankAccountFocusNode,
                     validator: (val) {},
                     controller: descriptionController,
@@ -418,7 +418,7 @@ class _CreateGigPageState extends State<CreateGigPage> {
                           print("Extension is  ${file.extension}");
                           print("path is  ${file.path}");
                           // openFile(file);
-                          docFiles = result.files;
+                          docFiles.addAll(result.files);
                           setState(() {});
                           // docFile=await saveFile(file);
                           print("from path =${file.path!}");
@@ -491,7 +491,7 @@ class _CreateGigPageState extends State<CreateGigPage> {
   bool isChecked1 = false;
   bool isChecked2 = false;
   bool onProgress = false;
-  List<PlatformFile>? docFiles;
+  List<PlatformFile> docFiles=[];
 
 
   openFiles(List<PlatformFile> files) {
@@ -535,6 +535,7 @@ class _CreateGigPageState extends State<CreateGigPage> {
             x++;
           });
           request.files.add(userImage);
+
         }
       }
       print("eeeeeeeeeeeeeeeeeee  ${request.fields} ${request.files}");

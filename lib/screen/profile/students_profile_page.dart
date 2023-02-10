@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:instagram_mention/instagram_mention.dart';
+import 'package:knotters/model/student_profile_model.dart';
 import 'package:knotters/provider/auth_provider.dart';
 import 'package:knotters/provider/student_profile_provider.dart';
 import 'package:knotters/widget/const.dart';
@@ -16,1516 +17,1333 @@ class StudentProfilePage extends StatefulWidget {
   State<StudentProfilePage> createState() => _StudentProfilePageState();
 }
 
-class _StudentProfilePageState extends State<StudentProfilePage> {
+class _StudentProfilePageState extends State<StudentProfilePage>with  SingleTickerProviderStateMixin{
   int selectedItem = 0;
+
   /// tab
-  TabController? _tabController;
-  TabController? _projectDocController;
+  late TabController _tabController;
   int selectedTabIndex = 0;
   int selectedProjectDocTabIndex = 0;
-  var _scrollViewController;
 
   /// slider
   double _currentSliderValue = 20;
 
-  // @override
-  // void initState() {
-  //   pageController = PageController(initialPage: selectedItem);
-  //   _scrollViewController = ScrollController();
-  //   _tabController = TabController(length: 4, vsync: this);
-  //   _projectDocController = TabController(length: 2, vsync: this);
-  //   super.initState();
-  // }
+  final bodyGlobalKey = GlobalKey();
+  final List<Widget> myTabs = [
+    Tab(text: 'auto short'),
+    Tab(text: 'auto long'),
+    Tab(text: 'fixed'),
+  ];
+  late ScrollController _scrollController;
+  late bool fixedScroll;
 
   @override
   void initState() {
-    // TODO: implement initState
     Provider.of<StudentProfileProvider>(context, listen: false).getStudentProfileData();
+    _scrollController = ScrollController();
+    _tabController = TabController(length: 4, vsync: this);
+
     super.initState();
   }
 
   @override
   void dispose() {
+    _tabController.dispose();
+    _scrollController.dispose();
     super.dispose();
   }
 
-  PageController? pageController;
+
+
+
+  List<StudentProfileModel> studentProfileList = [];
+
+
+  _buildTabContext(int lineCount) => Container(
+    child: ListView.builder(
+      physics: const ClampingScrollPhysics(),
+      itemCount: lineCount,
+      itemBuilder: (BuildContext context, int index) {
+        return Text('some content');
+      },
+    ),
+  );
+
   @override
   Widget build(BuildContext context) {
     final authProvider = Provider.of<AuthProvider>(context);
-    final studentProfileList = Provider.of<StudentProfileProvider>(context).studentProfileList;
-    return SafeArea(
-        child: Scaffold(
+    studentProfileList = Provider.of<StudentProfileProvider>(context).studentProfileList;
+    return Scaffold(
       body: Container(
-        width: double.infinity,
-        padding: EdgeInsets.symmetric(horizontal: 16),
-        child: SingleChildScrollView(
-          child: Column(
-            children: [
-              Container(
-                margin: EdgeInsets.symmetric(vertical: 20),
-                width: double.infinity,
-                padding: EdgeInsets.symmetric(horizontal: 12, vertical: 20),
-                decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.all(Radius.circular(20))),
-                child: studentProfileList==null?spinkit: Column(
-                  children: [
-                    Row(
-                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      crossAxisAlignment: CrossAxisAlignment.start,
+        margin: EdgeInsets.symmetric(vertical: 12,horizontal: 16),
+
+        child: NestedScrollView(
+          controller: _scrollController,
+          physics: NeverScrollableScrollPhysics(),
+          headerSliverBuilder: (context, value) {
+            return [
+              SliverToBoxAdapter(
+                  child: Container(
+                    padding: EdgeInsets.only(top: 20,left: 20,right: 20,bottom: 20),
+                    decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.only(topLeft: Radius.circular(20),topRight: Radius.circular(20))),
+                    child: Column(
                       children: [
-                        /// Settings
-                        buildContainer(
-                            iconButton: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: (() {}),
-                              icon: const Icon(
-                                Icons.settings_outlined,
-                                size: 18,
-                              ),
-                            ),
-                            radius: 8,
-                            color: buttonBackgroundColor,
-                            sbWidth: 35,
-                            sbHeight: 35),
-
-                        /// User Logo
-                        Stack(
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
-                            Container(
-                              height: 60,
-                              width: 60,
-                              decoration: BoxDecoration(
-                                  color: buttonBackgroundColor,
-                                  borderRadius:
+                            /// Settings
+                            buildContainer(
+                                iconButton: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: (() {}),
+                                  icon: const Icon(
+                                    Icons.settings_outlined,
+                                    size: 18,
+                                  ),
+                                ),
+                                radius: 8,
+                                color: buttonBackgroundColor,
+                                sbWidth: 35,
+                                sbHeight: 35),
+
+                            /// User Logo
+                            Stack(
+                              children: [
+                                Container(
+                                  height: 60,
+                                  width: 60,
+                                  decoration: BoxDecoration(
+                                      color: buttonBackgroundColor,
+                                      borderRadius:
                                       BorderRadius.all(Radius.circular(50))),
-                              child: Icon(
-                                Icons.person,
-                                color: Colors.grey.shade400,
-                                size: 25,
-                              ),
-                            ),
-                            Positioned(
-                              bottom: 10,
-                              right: 2,
-                              child: Container(
-                                height: 8,
-                                width: 8,
-                                decoration: BoxDecoration(
-                                    color: primaryColor,
-                                    borderRadius:
+                                  child: Icon(
+                                    Icons.person,
+                                    color: Colors.grey.shade400,
+                                    size: 25,
+                                  ),
+                                ),
+                                Positioned(
+                                  bottom: 10,
+                                  right: 2,
+                                  child: Container(
+                                    height: 8,
+                                    width: 8,
+                                    decoration: BoxDecoration(
+                                        color: primaryColor,
+                                        borderRadius:
                                         BorderRadius.all(Radius.circular(30))),
-                              ),
-                            )
-                          ],
-                        ),
+                                  ),
+                                )
+                              ],
+                            ),
 
-                        /// Favourite
-                        buildContainer(
-                            iconButton: IconButton(
-                              padding: EdgeInsets.zero,
-                              onPressed: (() {}),
-                              icon: Icon(
-                                Icons.favorite_outline,
-                                size: 18,
-                                color: textColorLight,
-                              ),
-                            ),
-                            radius: 8,
-                            color: buttonBackgroundColor,
-                            sbHeight: 35,
-                            sbWidth: 35),
-                      ],
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    Text("User ID: ${studentProfileList[0].user!.id.toString()}",
-                      style: myStyleBody(),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "${studentProfileList[0].user!.name.toString()}",
-                      style: myStyleHeader(),
-                    ),
-                    SizedBox(
-                      height: 5,
-                    ),
-                    Text("${studentProfileList[0].user!.userDetails!.universityName.toString()}",
-                      style: myStyleBody(),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    InkWell(
-                      onTap: (() {}),
-                      child: Container(
-                        height: 35,
-                        width: 120,
-                        decoration: BoxDecoration(
-                            color: buttonBackgroundColor,
-                            borderRadius:
-                                BorderRadius.all(Radius.circular(25))),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Container(
-                              height: 18,
-                              width: 18,
-                              decoration: BoxDecoration(
-                                  color: primaryColor,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(25))),
-                              child: Icon(
-                                Icons.edit,
-                                color: Colors.white,
-                                size: 12,
-                              ),
-                            ),
-                            SizedBox(
-                              width: 5,
-                            ),
-                            Text(
-                              "Edit Profile",
-                              style: TextStyle(
-                                color: primaryColor,
-                              ),
-                            )
+                            /// Favourite
+                            buildContainer(
+                                iconButton: IconButton(
+                                  padding: EdgeInsets.zero,
+                                  onPressed: (() {}),
+                                  icon: Icon(
+                                    Icons.favorite_outline,
+                                    size: 18,
+                                    color: textColorLight,
+                                  ),
+                                ),
+                                radius: 8,
+                                color: buttonBackgroundColor,
+                                sbHeight: 35,
+                                sbWidth: 35),
                           ],
                         ),
-                      ),
-                    ),
-                    SizedBox(
-                      height: 10,
-                    ),
-                    DefaultTabController(
-                      length: 4,
-                      initialIndex: 0,
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.stretch,
-                        children: [
-                          Container(
-                            height: 42,
-                            width: MediaQuery.of(context).size.width - 5,
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Text(
+                          "User ID",
+                          style: myStyleBody(),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "Student",
+                          style: myStyleHeader(),
+                        ),
+                        SizedBox(
+                          height: 5,
+                        ),
+                        Text(
+                          "University of Abu Dhabi",
+                          style: myStyleBody(),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        InkWell(
+                          onTap: (() {}),
+                          child: Container(
+                            height: 35,
+                            width: 120,
                             decoration: BoxDecoration(
-                                border: Border.all(color: primaryColor),
-                                color: Colors.white,
-                                borderRadius:
-                                    BorderRadius.all(Radius.circular(5))),
-                            child: TabBar(
-                              controller: this._tabController,
-                              labelColor: Colors.black,
-                              unselectedLabelColor: Colors.grey,
-                              indicatorColor: Colors.transparent,
-                              padding: EdgeInsets.zero,
-                              indicatorPadding: EdgeInsets.zero,
-                              labelPadding: EdgeInsets.only(left: 20),
-                              isScrollable: true,
-                              onTap: ((index) {
-                                setState(() {
-                                  selectedTabIndex = index;
-                                });
-                                print("selectedTabIndex $selectedTabIndex");
-                              }),
-                              // DefaultTabController.of(context).index
-                              tabs: [
-                                Tab(
-                                  child: selectedTabIndex == 0
-                                      ? InstagramMention(
-                                          text: 'Skills',
-                                          textStyle: myStyle(
-                                            16,
-                                            Colors.white,
-                                          ),
-                                          color: primaryColor,
-                                        )
-                                      : Text(
-                                          "Skills",
-                                          style: myStyle(
-                                            16,
-                                            textColorLight,
-                                          ),
-                                        ),
+                                color: buttonBackgroundColor,
+                                borderRadius: BorderRadius.all(Radius.circular(25))),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Container(
+                                  height: 18,
+                                  width: 18,
+                                  decoration: BoxDecoration(
+                                      color: primaryColor,
+                                      borderRadius:
+                                      BorderRadius.all(Radius.circular(25))),
+                                  child: Icon(
+                                    Icons.edit,
+                                    color: Colors.white,
+                                    size: 12,
+                                  ),
                                 ),
-                                Tab(
-                                  child: selectedTabIndex == 1
-                                      ? InstagramMention(
-                                          text: 'Progress',
-                                          textStyle: myStyle(
-                                            16,
-                                            Colors.white,
-                                          ),
-                                          color: primaryColor,
-                                        )
-                                      : Text(
-                                          "Progress",
-                                          overflow: TextOverflow.fade,
-                                          style: myStyle(
-                                            16,
-                                            textColorLight,
-                                          ),
-                                        ),
+                                SizedBox(
+                                  width: 5,
                                 ),
-                                Tab(
-                                  child: selectedTabIndex == 2
-                                      ? InstagramMention(
-                                          text: 'Order',
-                                          textStyle: myStyle(
-                                            16,
-                                            Colors.white,
-                                          ),
-                                          color: primaryColor,
-                                        )
-                                      : Text(
-                                          "Order",
-                                          style: myStyle(
-                                            16,
-                                            textColorLight,
-                                          ),
-                                        ),
-                                ),
-                                Tab(
-                                  child: selectedTabIndex == 3
-                                      ? InstagramMention(
-                                          text: 'Wallet',
-                                          textStyle: myStyle(
-                                            16,
-                                            Colors.white,
-                                          ),
-                                          color: primaryColor,
-                                        )
-                                      : Text(
-                                          "Wallet",
-                                          style: myStyle(
-                                            16,
-                                            textColorLight,
-                                          ),
-                                        ),
-                                ),
+                                Text(
+                                  "Edit Profile",
+                                  style: TextStyle(
+                                    color: primaryColor,
+                                  ),
+                                )
                               ],
                             ),
                           ),
-                          SizedBox(
-                            height: 10,
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        Container(
+
+                          width: MediaQuery.of(context).size.width - 5,
+                          decoration: BoxDecoration(
+                              border: Border.all(color: primaryColor),
+                              color: Colors.white,
+                              borderRadius:
+                              BorderRadius.all(Radius.circular(5))),
+                          child: TabBar(
+                            controller: this._tabController,
+                            labelColor: Colors.black,
+                            unselectedLabelColor: Colors.grey,
+                            indicatorColor: Colors.transparent,
+                            padding: EdgeInsets.zero,
+                            indicatorPadding: EdgeInsets.zero,
+                            labelPadding: EdgeInsets.only(left: 20),
+                            isScrollable: true,
+                            onTap: ((index) {
+                              setState(() {
+                                selectedTabIndex = index;
+                              });
+                              print("selectedTabIndex $selectedTabIndex");
+                            }),
+                            // DefaultTabController.of(context).index
+                            tabs: [
+                              Tab(
+                                child: selectedTabIndex == 0
+                                    ? InstagramMention(
+                                  text: 'Skills',
+                                  textStyle: myStyle(
+                                    16,
+                                    Colors.white,
+                                  ),
+                                  color: primaryColor,
+                                )
+                                    : Text(
+                                  "Skills",
+                                  style: myStyle(
+                                    16,
+                                    textColorLight,
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: selectedTabIndex == 1
+                                    ? InstagramMention(
+                                  text: 'Progress',
+                                  textStyle: myStyle(
+                                    16,
+                                    Colors.white,
+                                  ),
+                                  color: primaryColor,
+                                )
+                                    : Text(
+                                  "Progress",
+                                  overflow: TextOverflow.fade,
+                                  style: myStyle(
+                                    16,
+                                    textColorLight,
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: selectedTabIndex == 2
+                                    ? InstagramMention(
+                                  text: 'Order',
+                                  textStyle: myStyle(
+                                    16,
+                                    Colors.white,
+                                  ),
+                                  color: primaryColor,
+                                )
+                                    : Text(
+                                  "Order",
+                                  style: myStyle(
+                                    16,
+                                    textColorLight,
+                                  ),
+                                ),
+                              ),
+                              Tab(
+                                child: selectedTabIndex == 3
+                                    ? InstagramMention(
+                                  text: 'Wallet',
+                                  textStyle: myStyle(
+                                    16,
+                                    Colors.white,
+                                  ),
+                                  color: primaryColor,
+                                )
+                                    : Text(
+                                  "Wallet",
+                                  style: myStyle(
+                                    16,
+                                    textColorLight,
+                                  ),
+                                ),
+                              ),
+                            ],
                           ),
-                          Container(
-                            width: double.maxFinite,
-                            height: 500,
-                            child: TabBarView(
-                              physics: NeverScrollableScrollPhysics(),
-                              controller: this._tabController,
-                              children: [
-                                SingleChildScrollView(
-                                  child: Column(
+                        ),
+                      ],
+                    ),
+                  )),
+
+            ];
+          },
+          body: Container(
+            child: TabBarView(
+              controller: _tabController,
+              physics: NeverScrollableScrollPhysics(),
+              children: [
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SingleChildScrollView(
+                    physics: NeverScrollableScrollPhysics(),
+                    child: Column(
+                      children: [
+                        Container(
+                          width: MediaQuery.of(context).size.width - 5,
+                          padding: EdgeInsets.all(10),
+
+                          decoration: BoxDecoration(
+                              border: Border.all(color: primaryColor),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              /// Performance
+                              Text(
+                                "PERFORMANCE",
+                                style:
+                                myStyle(16, secondaryColorDark, FontWeight.bold),
+                              ),
+                              SizedBox(
+                                height: 10,
+                              ),
+                              ListView.separated(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemBuilder: (context, index) {
+                                  return Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Container(
-                                        height: 185,
-                                        width:
-                                            MediaQuery.of(context).size.width - 5,
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: primaryColor),
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            /// Performance
-                                            Text(
-                                              "PERFORMANCE",
-                                              style: myStyle(
+                                      Row(
+                                        mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                        children: [
+                                          LinearPercentIndicator(
+                                            width: 240,
+                                            lineHeight: 8.0,
+                                            percent: 0.9,
+                                            center: Text(""),
+                                            progressColor: primaryColor,
+                                            padding: EdgeInsets.zero,
+                                          ),
+                                          Text(
+                                            "90%",
+                                            style: myStyleBody(),
+                                          ),
+                                        ],
+                                      ),
+                                      SizedBox(
+                                        height: 5,
+                                      ),
+                                      Text(
+                                        "Communication & Attitude",
+                                        style: myStyleBody(),
+                                      ),
+                                    ],
+                                  );
+                                },
+                                separatorBuilder: (context, index) {
+                                  return SizedBox(
+                                    height: 15,
+                                  );
+                                },
+                                itemCount: 3,
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+
+                        /// Growth Journey
+                        Container(
+                          height: 80,
+                          width: MediaQuery.of(context).size.width - 5,
+                          // padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: primaryColor),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 10,
+                                  top: 10,
+                                ),
+                                child: Text(
+                                  "GROWTH JOURNEY",
+                                  style: myStyle(
+                                      16, secondaryColorDark, FontWeight.bold),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                ),
+                                child: Divider(),
+                              ),
+                              Expanded(
+                                child: SliderTheme(
+                                  data: SliderThemeData(
+                                    overlayShape: SliderComponentShape.noThumb,
+                                  ),
+                                  child: Slider(
+                                    value: _currentSliderValue,
+                                    max: 100,
+                                    divisions: 3,
+                                    activeColor: primaryColor,
+                                    inactiveColor: secondaryColor,
+                                    label: _currentSliderValue.round().toString(),
+                                    onChanged: (double value) {
+                                      setState(() {
+                                        _currentSliderValue = value;
+                                      });
+                                    },
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 10,
+                                  right: 10,
+                                  top: 5,
+                                  bottom: 5,
+                                ),
+                                child: Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                  children: [
+                                    Text(
+                                      "Excited",
+                                      style: myStyle(
+                                        16,
+                                        primaryColor,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Eager",
+                                      style: myStyle(
+                                        16,
+                                        secondaryColor,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Experienced",
+                                      style: myStyle(
+                                        16,
+                                        secondaryColor,
+                                      ),
+                                    ),
+                                    Text(
+                                      "Expert",
+                                      style: myStyle(
+                                        16,
+                                        secondaryColor,
+                                      ),
+                                    ),
+                                  ],
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+
+                        SizedBox(height: 10,),
+                        /// Skills
+                        Container(
+                          width: MediaQuery.of(context).size.width - 5,
+                          padding: EdgeInsets.all(10),
+                          decoration: BoxDecoration(
+                              border: Border.all(color: primaryColor),
+                              color: Colors.white,
+                              borderRadius: BorderRadius.all(Radius.circular(10))),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              /// skills
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                children: [
+                                  Text(
+                                    "Skills",
+                                    style: myStyle(
+                                        16, secondaryColorDark, FontWeight.bold),
+                                  ),
+                                  InkWell(
+                                    onTap: (() {}),
+                                    child: Container(
+                                      height: 35,
+                                      width: 120,
+                                      decoration: BoxDecoration(
+                                          color: buttonBackgroundColor,
+                                          borderRadius:
+                                          BorderRadius.all(Radius.circular(25))),
+                                      child: Row(
+                                        mainAxisAlignment: MainAxisAlignment.center,
+                                        children: [
+                                          Text(
+                                            "Add More",
+                                            style: TextStyle(
+                                              color: textColorLight,
+                                            ),
+                                          ),
+                                          SizedBox(
+                                            width: 5,
+                                          ),
+                                          Icon(
+                                            Icons.add,
+                                            color: primaryColor,
+                                            size: 15,
+                                          ),
+                                        ],
+                                      ),
+                                    ),
+                                  ),
+                                ],
+                              ),
+                              Divider(),
+                              Row(
+                                children: [
+                                  Flexible(
+                                    child: Wrap(
+                                      runSpacing: 5.0,
+                                      spacing: 2,
+                                      children: [
+                                        RoundedContainerWithText(
+                                          height: 30,
+                                          radius: 25,
+                                          widget: Center(
+                                              child: Text(
+                                                "Graphics Design",
+                                                style: myStyle(
                                                   16,
                                                   secondaryColorDark,
-                                                  FontWeight.bold),
-                                            ),
-                                            SizedBox(
-                                              height: 10,
-                                            ),
-                                            Expanded(
-                                              child: ListView.separated(
-                                                physics:
-                                                    NeverScrollableScrollPhysics(),
-                                                shrinkWrap: true,
-                                                itemBuilder: (context, index) {
-                                                  return Column(
-                                                    crossAxisAlignment:
-                                                        CrossAxisAlignment
-                                                            .start,
-                                                    children: [
-                                                      Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .spaceBetween,
-                                                        children: [
-                                                          LinearPercentIndicator(
-                                                            width: 240,
-                                                            lineHeight: 8.0,
-                                                            percent: 0.9,
-                                                            center: Text(""),
-                                                            progressColor:
-                                                                primaryColor,
-                                                            padding:
-                                                                EdgeInsets.zero,
-                                                          ),
-                                                          Text(
-                                                            "90%",
-                                                            style:
-                                                                myStyleBody(),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                      SizedBox(
-                                                        height: 5,
-                                                      ),
-                                                      Text(
-                                                        "Communication & Attitude",
-                                                        style: myStyleBody(),
-                                                      ),
-                                                    ],
-                                                  );
-                                                },
-                                                separatorBuilder:
-                                                    (context, index) {
-                                                  return SizedBox(
-                                                    height: 15,
-                                                  );
-                                                },
-                                                itemCount: 3,
-                                              ),
-                                            ),
-                                          ],
+                                                  FontWeight.normal,
+                                                ),
+                                              )),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-
-                                      /// Growth Journey
-                                      Container(
-                                        height: 80,
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                5,
-                                        // padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: primaryColor),
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 10,
-                                                top: 10,
-                                              ),
+                                        RoundedContainerWithText(
+                                          height: 30,
+                                          radius: 25,
+                                          widget: Center(
                                               child: Text(
-                                                "GROWTH JOURNEY",
+                                                "Graphics Design",
                                                 style: myStyle(
-                                                    16,
-                                                    secondaryColorDark,
-                                                    FontWeight.bold),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                              ),
-                                              child: Divider(),
-                                            ),
-                                            Expanded(
-                                              child: SliderTheme(
-                                                data: SliderThemeData(
-                                                  overlayShape:
-                                                      SliderComponentShape
-                                                          .noThumb,
+                                                  16,
+                                                  secondaryColorDark,
+                                                  FontWeight.normal,
                                                 ),
-                                                child: Slider(
-                                                  value: _currentSliderValue,
-                                                  max: 100,
-                                                  divisions: 3,
-                                                  activeColor: primaryColor,
-                                                  inactiveColor: secondaryColor,
-                                                  label: _currentSliderValue
-                                                      .round()
-                                                      .toString(),
-                                                  onChanged: (double value) {
-                                                    setState(() {
-                                                      _currentSliderValue =
-                                                          value;
-                                                    });
-                                                  },
-                                                ),
-                                              ),
-                                            ),
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 10,
-                                                right: 10,
-                                                top: 5,
-                                                bottom: 5,
-                                              ),
-                                              child: Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
-                                                children: [
-                                                  Text(
-                                                    "Excited",
-                                                    style: myStyle(
-                                                      16,
-                                                      primaryColor,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Eager",
-                                                    style: myStyle(
-                                                      16,
-                                                      secondaryColor,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Experienced",
-                                                    style: myStyle(
-                                                      16,
-                                                      secondaryColor,
-                                                    ),
-                                                  ),
-                                                  Text(
-                                                    "Expert",
-                                                    style: myStyle(
-                                                      16,
-                                                      secondaryColor,
-                                                    ),
-                                                  ),
-                                                ],
-                                              ),
-                                            ),
-                                          ],
+                                              )),
                                         ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                                        RoundedContainerWithText(
+                                          height: 30,
+                                          radius: 25,
+                                          widget: Center(
+                                              child: Text(
+                                                "Graphics Design",
+                                                style: myStyle(
+                                                  16,
+                                                  secondaryColorDark,
+                                                  FontWeight.normal,
+                                                ),
+                                              )),
+                                        ),
+                                        RoundedContainerWithText(
+                                          height: 30,
+                                          radius: 25,
+                                          widget: Center(
+                                              child: Text(
+                                                "Graphics Design",
+                                                style: myStyle(
+                                                  16,
+                                                  secondaryColorDark,
+                                                  FontWeight.normal,
+                                                ),
+                                              )),
+                                        ),
+                                        RoundedContainerWithText(
+                                          height: 30,
+                                          radius: 25,
+                                          widget: Center(
+                                              child: Text(
+                                                "Graphics Design",
+                                                style: myStyle(
+                                                  16,
+                                                  secondaryColorDark,
+                                                  FontWeight.normal,
+                                                ),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ///Student Progress
+                Container(
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: SingleChildScrollView(
+                    child: Column(
+                      children: [
+                        CommonContainer(
+                          context: context,
+                          height: 95,
+                          radius: 5,
+                          widget: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 5.0,
+                                  top: 5,
+                                ),
+                                child: Text(
+                                  "WORKED WITH",
+                                  style: myStyle(
+                                      16,
+                                      secondaryColorDark,
+                                      FontWeight.bold),
+                                ),
+                              ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection:
+                                  Axis.horizontal,
+                                  child: ListView.builder(
+                                    physics:
+                                    NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection:
+                                    Axis.horizontal,
+                                    itemBuilder:
+                                        (context, index) {
+                                      return CircleContainer(
+                                        height: 45,
+                                        width: 45,
+                                        widget: Center(
+                                          child: Text("R"),
+                                        ),
+                                      );
+                                    },
+                                    itemCount: 10,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
+                        CommonContainer(
+                          context: context,
+                          height: 95,
+                          radius: 5,
+                          widget: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 5.0,
+                                  top: 5,
+                                  bottom: 10,
+                                ),
+                                child: Text(
+                                  "COMPLETED COURSE",
+                                  style: myStyle(
+                                      16,
+                                      secondaryColorDark,
+                                      FontWeight.bold),
+                                ),
+                              ),
+                              Expanded(
+                                child: SingleChildScrollView(
+                                  scrollDirection:
+                                  Axis.horizontal,
+                                  child: ListView.builder(
+                                    physics:
+                                    NeverScrollableScrollPhysics(),
+                                    shrinkWrap: true,
+                                    scrollDirection:
+                                    Axis.horizontal,
+                                    itemBuilder:
+                                        (context, index) {
+                                      return CircleContainerBadge(
+                                        height: 45,
+                                        width: 45,
+                                        widget: Center(
+                                          child: Text("R"),
+                                        ),
+                                      );
+                                    },
+                                    itemCount: 10,
+                                  ),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                        SizedBox(
+                          height: 10,
+                        ),
 
-                                      /// Skills
-                                      Container(
+                        CommonContainer(
+                          context: context,
 
-                                        width:
-                                            MediaQuery.of(context).size.width -
-                                                5,
-                                        padding: EdgeInsets.all(10),
-                                        decoration: BoxDecoration(
-                                            border:
-                                                Border.all(color: primaryColor),
-                                            color: Colors.white,
-                                            borderRadius: BorderRadius.all(
-                                                Radius.circular(10))),
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
+
+                          radius: 5,
+                          widget: Column(
+                            crossAxisAlignment:
+                            CrossAxisAlignment.start,
+                            mainAxisAlignment:
+                            MainAxisAlignment.start,
+                            children: [
+                              Padding(
+                                padding: EdgeInsets.only(
+                                  left: 5.0,
+                                  top: 5,
+                                ),
+                                child: Text(
+                                  "REVIEWS FROM BUSINESS",
+                                  style: myStyle(
+                                      16,
+                                      secondaryColorDark,
+                                      FontWeight.bold),
+                                ),
+                              ),
+                              ListView.builder(
+                                physics:
+                                NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                scrollDirection:
+                                Axis.vertical,
+                                itemBuilder:
+                                    (context, index) {
+                                  return Padding(
+                                    padding:
+                                    const EdgeInsets.all(
+                                        5.0),
+                                    child: Row(
+                                      crossAxisAlignment:
+                                      CrossAxisAlignment
+                                          .start,
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .start,
+                                      children: [
+                                        Expanded(
+                                          flex: 1,
+                                          child: Container(
+                                            height: 60,
+                                            width: 60,
+                                            decoration:
+                                            BoxDecoration(
+                                              color: Colors
+                                                  .white,
+                                              border: Border.all(
+                                                  color:
+                                                  secondaryColor),
+                                              shape: BoxShape
+                                                  .circle,
+                                            ),
+                                          ),
+                                        ),
+                                        SizedBox(
+                                          width: 15,
+                                        ),
+                                        Expanded(
+                                          flex: 5,
                                           child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.start,
                                             children: [
-                                              /// skills
                                               Row(
-                                                mainAxisAlignment:
-                                                    MainAxisAlignment
-                                                        .spaceBetween,
                                                 children: [
                                                   Text(
-                                                    "Skills",
+                                                    "StarBucks",
                                                     style: myStyle(
-                                                        16,
-                                                        secondaryColorDark,
-                                                        FontWeight.bold),
+                                                        20,
+                                                        textColorLight,
+                                                        FontWeight
+                                                            .normal),
                                                   ),
-                                                  InkWell(
-                                                    onTap: (() {}),
-                                                    child: Container(
-                                                      height: 35,
-                                                      width: 120,
-                                                      decoration: BoxDecoration(
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+
+                                                  /// Ratings
+                                                  RatingBar
+                                                      .builder(
+                                                    itemSize:
+                                                    15,
+                                                    initialRating:
+                                                    4,
+                                                    minRating:
+                                                    1,
+                                                    direction:
+                                                    Axis.horizontal,
+                                                    allowHalfRating:
+                                                    true,
+                                                    itemCount:
+                                                    5,
+                                                    itemPadding:
+                                                    EdgeInsets.symmetric(
+                                                        horizontal: 4.0),
+                                                    itemBuilder:
+                                                        (context, _) =>
+                                                        Icon(
+                                                          Icons
+                                                              .star,
                                                           color:
-                                                              buttonBackgroundColor,
-                                                          borderRadius:
-                                                              BorderRadius.all(
-                                                                  Radius.circular(
-                                                                      25))),
-                                                      child: Row(
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .center,
-                                                        children: [
-                                                          Text(
-                                                            "Add More",
-                                                            style: TextStyle(
-                                                              color:
-                                                                  textColorLight,
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 5,
-                                                          ),
-                                                          Icon(
-                                                            Icons.add,
-                                                            color: primaryColor,
-                                                            size: 15,
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    ),
-                                                  ),
+                                                          primaryColor,
+                                                        ),
+                                                    onRatingUpdate:
+                                                        (rating) {
+                                                      print(
+                                                          rating);
+                                                    },
+                                                  )
                                                 ],
                                               ),
-                                              Divider(),
+                                              SizedBox(
+                                                height: 8,
+                                              ),
+                                              Text(
+                                                "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
+                                                style: myStyle(
+                                                    14,
+                                                    secondaryColor),
+                                              ),
+                                              SizedBox(
+                                                height: 5,
+                                              ),
                                               Row(
                                                 children: [
-                                                  Flexible(
-                                                    child: Wrap(
-                                                      runSpacing: 5.0,
-                                                      spacing: 2,
+                                                  TextButton(
+                                                    // <-- TextButton
+                                                    onPressed:
+                                                        () {},
+                                                    style: TextButton.styleFrom(
+                                                        padding: EdgeInsets.zero,
+                                                        // minimumSize: Size(50, 30),
+                                                        tapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                                                        alignment: Alignment.centerLeft),
+                                                    child:
+                                                    Row(
                                                       children: [
-                                                        RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Graphics Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
+                                                        Text(
+                                                          "Reply",
+                                                          style:
+                                                          myStyle(15, textColorLight),
                                                         ),
-                                                        RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "UI/UX Design",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
+                                                        SizedBox(
+                                                          width:
+                                                          5,
                                                         ),
-                                                        RoundedContainerWithText(
-                                                          height: 30,
-                                                          radius: 25,
-                                                          widget: Center(
-                                                              child: Text(
-                                                            "Photography",
-                                                            style: myStyle(
-                                                              16,
-                                                              secondaryColorDark,
-                                                              FontWeight.normal,
-                                                            ),
-                                                          )),
-                                                        ),
+                                                        Icon(
+                                                          Icons.reply,
+                                                          size:
+                                                          15,
+                                                          color:
+                                                          primaryColor,
+                                                        )
                                                       ],
                                                     ),
                                                   ),
+                                                  SizedBox(
+                                                    width: 10,
+                                                  ),
+                                                  Text(
+                                                    "1 reply",
+                                                    style: myStyle(
+                                                        15,
+                                                        textColorLight),
+                                                  ),
                                                 ],
                                               ),
                                             ],
                                           ),
                                         ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-                                
-                                ///Student Progress
-                                SingleChildScrollView(
-                                  child: Column(
-                                    children: [
-                                      CommonContainer(
-                                        context: context,
-                                        height: 95,
-                                        radius: 5,
-                                        widget: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 5.0,
-                                                top: 5,
-                                              ),
-                                              child: Text(
-                                                "WORKED WITH",
-                                                style: myStyle(
-                                                    16,
-                                                    secondaryColorDark,
-                                                    FontWeight.bold),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: ListView.builder(
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return CircleContainer(
-                                                      height: 45,
-                                                      width: 45,
-                                                      widget: Center(
-                                                        child: Text("R"),
-                                                      ),
-                                                    );
-                                                  },
-                                                  itemCount: 10,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
-                                      CommonContainer(
-                                        context: context,
-                                        height: 95,
-                                        radius: 5,
-                                        widget: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 5.0,
-                                                top: 5,
-                                                bottom: 10,
-                                              ),
-                                              child: Text(
-                                                "COMPLETED COURSE",
-                                                style: myStyle(
-                                                    16,
-                                                    secondaryColorDark,
-                                                    FontWeight.bold),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: SingleChildScrollView(
-                                                scrollDirection:
-                                                    Axis.horizontal,
-                                                child: ListView.builder(
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.horizontal,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return CircleContainerBadge(
-                                                      height: 45,
-                                                      width: 45,
-                                                      widget: Center(
-                                                        child: Text("R"),
-                                                      ),
-                                                    );
-                                                  },
-                                                  itemCount: 10,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      SizedBox(
-                                        height: 10,
-                                      ),
+                                      ],
+                                    ),
+                                  );
+                                },
+                                itemCount: 4,
+                              ),
 
-                                      CommonContainer(
-                                        context: context,
-                                        height: 200,
-                                        radius: 5,
-                                        widget: Column(
-                                          crossAxisAlignment:
-                                              CrossAxisAlignment.start,
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.start,
-                                          children: [
-                                            Padding(
-                                              padding: EdgeInsets.only(
-                                                left: 5.0,
-                                                top: 5,
-                                              ),
-                                              child: Text(
-                                                "REVIEWS FROM BUSINESS",
-                                                style: myStyle(
-                                                    16,
-                                                    secondaryColorDark,
-                                                    FontWeight.bold),
-                                              ),
-                                            ),
-                                            Expanded(
-                                              child: SingleChildScrollView(
-                                                scrollDirection: Axis.vertical,
-                                                child: ListView.builder(
-                                                  physics:
-                                                      NeverScrollableScrollPhysics(),
-                                                  shrinkWrap: true,
-                                                  scrollDirection:
-                                                      Axis.vertical,
-                                                  itemBuilder:
-                                                      (context, index) {
-                                                    return Padding(
-                                                      padding:
-                                                          const EdgeInsets.all(
-                                                              5.0),
-                                                      child: Row(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        mainAxisAlignment:
-                                                            MainAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Expanded(
-                                                            flex: 1,
-                                                            child: Container(
-                                                              height: 60,
-                                                              width: 60,
-                                                              decoration:
-                                                                  BoxDecoration(
-                                                                color: Colors
-                                                                    .white,
-                                                                border: Border.all(
-                                                                    color:
-                                                                        secondaryColor),
-                                                                shape: BoxShape
-                                                                    .circle,
-                                                              ),
-                                                            ),
-                                                          ),
-                                                          SizedBox(
-                                                            width: 15,
-                                                          ),
-                                                          Expanded(
-                                                            flex: 5,
-                                                            child: Column(
-                                                              children: [
-                                                                Row(
-                                                                  children: [
-                                                                    Text(
-                                                                      "StarBucks",
-                                                                      style: myStyle(
-                                                                          20,
-                                                                          textColorLight,
-                                                                          FontWeight
-                                                                              .normal),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
+                            ],
+                          ),
 
-                                                                    /// Ratings
-                                                                    RatingBar
-                                                                        .builder(
-                                                                      itemSize:
-                                                                          15,
-                                                                      initialRating:
-                                                                          4,
-                                                                      minRating:
-                                                                          1,
-                                                                      direction:
-                                                                          Axis.horizontal,
-                                                                      allowHalfRating:
-                                                                          true,
-                                                                      itemCount:
-                                                                          5,
-                                                                      itemPadding:
-                                                                          EdgeInsets.symmetric(
-                                                                              horizontal: 4.0),
-                                                                      itemBuilder:
-                                                                          (context, _) =>
-                                                                              Icon(
-                                                                        Icons
-                                                                            .star,
-                                                                        color:
-                                                                            primaryColor,
-                                                                      ),
-                                                                      onRatingUpdate:
-                                                                          (rating) {
-                                                                        print(
-                                                                            rating);
-                                                                      },
-                                                                    )
-                                                                  ],
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 8,
-                                                                ),
-                                                                Text(
-                                                                  "Reference site about Lorem Ipsum, giving information on its origins, as well as a random Lipsum generator.",
-                                                                  style: myStyle(
-                                                                      14,
-                                                                      secondaryColor),
-                                                                ),
-                                                                SizedBox(
-                                                                  height: 5,
-                                                                ),
-                                                                Row(
-                                                                  children: [
-                                                                    TextButton(
-                                                                      // <-- TextButton
-                                                                      onPressed:
-                                                                          () {},
-                                                                      style: TextButton.styleFrom(
-                                                                          padding: EdgeInsets.zero,
-                                                                          // minimumSize: Size(50, 30),
-                                                                          tapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                                                                          alignment: Alignment.centerLeft),
-                                                                      child:
-                                                                          Row(
-                                                                        children: [
-                                                                          Text(
-                                                                            "Reply",
-                                                                            style:
-                                                                                myStyle(15, textColorLight),
-                                                                          ),
-                                                                          SizedBox(
-                                                                            width:
-                                                                                5,
-                                                                          ),
-                                                                          Icon(
-                                                                            Icons.reply,
-                                                                            size:
-                                                                                15,
-                                                                            color:
-                                                                                primaryColor,
-                                                                          )
-                                                                        ],
-                                                                      ),
-                                                                    ),
-                                                                    SizedBox(
-                                                                      width: 10,
-                                                                    ),
-                                                                    Text(
-                                                                      "1 reply",
-                                                                      style: myStyle(
-                                                                          15,
-                                                                          textColorLight),
-                                                                    ),
-                                                                  ],
-                                                                ),
-                                                              ],
-                                                            ),
-                                                          ),
-                                                        ],
-                                                      ),
-                                                    );
-                                                  },
-                                                  itemCount: 4,
-                                                ),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                        ),
+                        SizedBox(
+                          height: 20,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+                ///Student Order
+                Container(
 
-                                ///Student Order
-                                CommonContainer(
-                                  context: context,
-                                  height: 200,
-                                  radius: 5,
-                                  widget: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: EdgeInsets.only(
-                                          left: 5.0,
-                                          top: 5,
-                                        ),
-                                        child: Row(
-                                          children: [
-                                            Text(
-                                              "ACTIVE ORDER - 3",
-                                              style: myStyle(
-                                                  16,
-                                                  secondaryColorDark,
-                                                  FontWeight.bold),
-                                            ),
-                                            Text(
-                                              " (\$45)",
-                                              style: myStyle(
-                                                  12,
-                                                  secondaryColorDark,
-                                                  FontWeight.normal),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
-                                      Divider(),
-                                      Padding(
-                                        padding: const EdgeInsets.all(8.0),
-                                        child: Row(
-                                          mainAxisAlignment:
-                                              MainAxisAlignment.spaceBetween,
-                                          children: [
-                                            Text(
-                                              "Business Name",
-                                              style: myStyle(12, textColorLight,
-                                                  FontWeight.normal),
-                                            ),
-                                            Text(
-                                              "Time Remaining",
-                                              style: myStyle(12, textColorLight,
-                                                  FontWeight.normal),
-                                            ),
-                                            Text(
-                                              "Amount",
-                                              style: myStyle(12, textColorLight,
-                                                  FontWeight.normal),
-                                            ),
-                                          ],
-                                        ),
-                                      ),
+                  color: Colors.white,
+                  padding: EdgeInsets.symmetric(horizontal: 16),
+                  child: CommonContainer(
+                    context: context,
+                    height: 200,
+                    radius: 5,
+                    widget: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: EdgeInsets.only(
+                            left: 5.0,
+                            top: 5,
+                          ),
+                          child: Row(
+                            children: [
+                              Text(
+                                "ACTIVE ORDER - 3",
+                                style: myStyle(
+                                    16,
+                                    secondaryColorDark,
+                                    FontWeight.bold),
+                              ),
+                              Text(
+                                " (\$45)",
+                                style: myStyle(
+                                    12,
+                                    secondaryColorDark,
+                                    FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
+                        Divider(),
+                        Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Row(
+                            mainAxisAlignment:
+                            MainAxisAlignment.spaceBetween,
+                            children: [
+                              Text(
+                                "Business Name",
+                                style: myStyle(12, textColorLight,
+                                    FontWeight.normal),
+                              ),
+                              Text(
+                                "Time Remaining",
+                                style: myStyle(12, textColorLight,
+                                    FontWeight.normal),
+                              ),
+                              Text(
+                                "Amount",
+                                style: myStyle(12, textColorLight,
+                                    FontWeight.normal),
+                              ),
+                            ],
+                          ),
+                        ),
 
-                                      /// Listview
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
-                                          child: ListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemBuilder: (context, index) {
-                                              return Padding(
-                                                  padding:
-                                                      const EdgeInsets.all(5.0),
-                                                  child: InkWell(
-                                                    onTap: () {},
-                                                    child: CommonContainer(
-                                                        context: context,
-                                                        height: 50,
-                                                        radius: 5,
-                                                        widget: Padding(
-                                                          padding:
-                                                              const EdgeInsets
-                                                                  .all(5.0),
-                                                          child: Row(
-                                                            mainAxisAlignment:
-                                                                MainAxisAlignment
-                                                                    .spaceBetween,
-                                                            crossAxisAlignment:
-                                                                CrossAxisAlignment
-                                                                    .center,
-                                                            children: [
-                                                              Row(
-                                                                children: [
-                                                                  Container(
-                                                                    height: 30,
-                                                                    width: 30,
-                                                                    decoration:
-                                                                        BoxDecoration(
-                                                                      color: Colors
-                                                                          .white,
-                                                                      border: Border.all(
-                                                                          color:
-                                                                              secondaryColor),
-                                                                      shape: BoxShape
-                                                                          .circle,
-                                                                    ),
-                                                                  ),
-                                                                  SizedBox(
-                                                                    width: 3,
-                                                                  ),
-                                                                  Text(
-                                                                    "StarBucks",
-                                                                    style: myStyle(
-                                                                        12,
-                                                                        textColorLight,
-                                                                        FontWeight
-                                                                            .normal),
-                                                                  ),
-                                                                ],
-                                                              ),
-                                                              Text(
-                                                                "02h 25m 30s",
-                                                                style: myStyle(
-                                                                    12,
-                                                                    textColorLight,
-                                                                    FontWeight
-                                                                        .normal),
-                                                              ),
-                                                              Text(
-                                                                "\$56",
-                                                                style: myStyle(
-                                                                    12,
-                                                                    textColorLight,
-                                                                    FontWeight
-                                                                        .normal),
-                                                              ),
-                                                            ],
-                                                          ),
-                                                        )),
-                                                  ));
-                                            },
-                                            itemCount: 6,
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
-
-                                /// Students Wallet
-                                CommonContainer(
-                                  context: context,
-                                  height: 200,
-                                  radius: 5,
-                                  widget: Column(
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    children: [
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: ContainerWithContraints(
-
+                        /// Listview
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: ListView.builder(
+                              physics:
+                              NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                    padding:
+                                    const EdgeInsets.all(5.0),
+                                    child: InkWell(
+                                      onTap: () {},
+                                      child: CommonContainer(
+                                          context: context,
                                           height: 50,
-                                          opacity: 0.5,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              5,
-                                          color: primaryColor.withOpacity(0.3),
-                                          widget: Column(
-                                            mainAxisAlignment: MainAxisAlignment.center,
-                                            children: [
-                                              Text(
-                                                "Your next withdraw date is 13th August, 2022",
-                                                style: myStyle(
-                                                    12,
-                                                    secondaryColorDark,
-                                                    FontWeight.bold),
-                                              ),
-                                              Text(
-                                                "Last withdraw date 07, August, 2022",
-                                                style: myStyle(
-                                                    12,
-                                                    textColorLight,
-                                                    FontWeight.normal),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Text(
-                                          "WITHDRAW WALLET",
-                                          style: myStyle(15, secondaryColorDark,
-                                              FontWeight.bold),
-                                        ),
-                                      ),
-
-                                      /// Listview
-                                      Expanded(
-                                        child: SingleChildScrollView(
-                                          scrollDirection: Axis.vertical,
-                                          child: ListView.builder(
-                                            physics:
-                                                NeverScrollableScrollPhysics(),
-                                            shrinkWrap: true,
-                                            scrollDirection: Axis.vertical,
-                                            itemBuilder: (context, index) {
-                                              return Padding(
-                                                padding:
-                                                    const EdgeInsets.all(5.0),
-                                                child: Container(
-                                                  height: 60,
-                                                  width: MediaQuery.of(context)
-                                                          .size
-                                                          .width -
-                                                      5,
-                                                  padding: EdgeInsets.all(5),
-                                                  decoration: BoxDecoration(
-                                                      border: Border.all(
-                                                          color: textColorLight
-                                                              .withOpacity(
-                                                                  0.5)),
-                                                      color: Colors.white,
-                                                      borderRadius:
-                                                          BorderRadius.all(
-                                                              Radius.circular(
-                                                                  5))),
-                                                  child: Row(
-                                                    mainAxisAlignment:
-                                                        MainAxisAlignment
-                                                            .spaceBetween,
-                                                    children: [
-                                                      Column(
-                                                        crossAxisAlignment:
-                                                            CrossAxisAlignment
-                                                                .start,
-                                                        children: [
-                                                          Text(
-                                                            "Walve 1",
-                                                            style: myStyle(
-                                                                12,
-                                                                secondaryColorDark,
-                                                                FontWeight
-                                                                    .normal),
-                                                          ),
-                                                          SizedBox(height: 3),
-                                                          Text(
-                                                            "Muhammad Bin Rashid",
-                                                            style: myStyle(
-                                                                15,
-                                                                secondaryColorDark,
-                                                                FontWeight
-                                                                    .bold),
-                                                          ),
-                                                          SizedBox(height: 3),
-                                                          Text(
-                                                            "0000 1112421455124455445",
-                                                            style: myStyle(
-                                                                12,
-                                                                textColorLight,
-                                                                FontWeight
-                                                                    .normal),
-                                                          ),
-                                                        ],
+                                          radius: 5,
+                                          widget: Padding(
+                                            padding:
+                                            const EdgeInsets
+                                                .all(5.0),
+                                            child: Row(
+                                              mainAxisAlignment:
+                                              MainAxisAlignment
+                                                  .spaceBetween,
+                                              crossAxisAlignment:
+                                              CrossAxisAlignment
+                                                  .center,
+                                              children: [
+                                                Row(
+                                                  children: [
+                                                    Container(
+                                                      height: 30,
+                                                      width: 30,
+                                                      decoration:
+                                                      BoxDecoration(
+                                                        color: Colors
+                                                            .white,
+                                                        border: Border.all(
+                                                            color:
+                                                            secondaryColor),
+                                                        shape: BoxShape
+                                                            .circle,
                                                       ),
-                                                      SizedBox(
-                                                        width: 80,
-                                                        height: 30,
-                                                        child: InkWell(
-                                                          onTap: (() {}),
-                                                          child: Container(
-                                                            alignment: Alignment
-                                                                .center,
-                                                            child: Text(
-                                                              "Withdraw",
-                                                              style: myStyle(
-                                                                  12,
-                                                                  primaryColor,
-                                                                  FontWeight
-                                                                      .w400),
-                                                            ),
-                                                            padding: EdgeInsets
-                                                                .symmetric(
-                                                                    vertical:
-                                                                        3),
-                                                            width:
-                                                                double.infinity,
-                                                            decoration: BoxDecoration(
-                                                                border: Border.all(
-                                                                    color: textColorLight
-                                                                        .withOpacity(
-                                                                            0.5),
-                                                                    width: 1),
-                                                                borderRadius:
-                                                                    BorderRadius
-                                                                        .circular(
-                                                                            8)),
-                                                          ),
-                                                        ),
-                                                      )
-                                                    ],
-                                                  ),
-                                                ),
-                                              );
-                                            },
-                                            itemCount: 3,
-                                          ),
-                                        ),
-                                      ),
-                                      Padding(
-                                        padding: const EdgeInsets.all(5.0),
-                                        child: Container(
-                                          height: 60,
-                                          width: MediaQuery.of(context)
-                                                  .size
-                                                  .width -
-                                              5,
-                                          padding: EdgeInsets.all(5),
-                                          decoration: BoxDecoration(
-                                              border: Border.all(
-                                                  color: textColorLight
-                                                      .withOpacity(0.5)),
-                                              color: Colors.white,
-                                              borderRadius: BorderRadius.all(
-                                                  Radius.circular(5))),
-                                          child: Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "ADD NEW WALLET",
-                                                style: myStyle(
-                                                    15,
-                                                    secondaryColorDark,
-                                                    FontWeight.bold),
-                                              ),
-                                              SizedBox(height: 3),
-                                              SizedBox(
-                                                height: 25,
-                                                width: MediaQuery.of(context)
-                                                        .size
-                                                        .width -
-                                                    5,
-                                                child: InkWell(
-                                                  onTap: (() {}),
-                                                  child: Container(
-
-                                                    alignment: Alignment.center,
-                                                    child: Text(
-                                                      "Add New Wallet",
+                                                    ),
+                                                    SizedBox(
+                                                      width: 3,
+                                                    ),
+                                                    Text(
+                                                      "StarBucks",
                                                       style: myStyle(
                                                           12,
-                                                          Colors.white,
-                                                          FontWeight.w400),
+                                                          textColorLight,
+                                                          FontWeight
+                                                              .normal),
                                                     ),
-                                                    padding:
-                                                        EdgeInsets.symmetric(
-                                                            vertical: 3),
-                                                    width: double.infinity,
-                                                    decoration: BoxDecoration(
-                                                        color: primaryColor,
-                                                        borderRadius:
-                                                            BorderRadius
-                                                                .circular(8)),
-                                                  ),
+                                                  ],
                                                 ),
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ],
-                                  ),
-                                ),
+                                                Text(
+                                                  "02h 25m 30s",
+                                                  style: myStyle(
+                                                      12,
+                                                      textColorLight,
+                                                      FontWeight
+                                                          .normal),
+                                                ),
+                                                Text(
+                                                  "\$56",
+                                                  style: myStyle(
+                                                      12,
+                                                      textColorLight,
+                                                      FontWeight
+                                                          .normal),
+                                                ),
+                                              ],
+                                            ),
+                                          )),
+                                    ));
+                              },
+                              itemCount: 6,
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
 
+                /// Students Wallet
+                Container(
+                  color: Colors.white,
+
+                  padding: EdgeInsets.fromLTRB(16, 0,16,6),
+                  child: CommonContainer(
+                    context: context,
+
+                    radius: 5,
+                    widget: Column(
+                      crossAxisAlignment:
+                      CrossAxisAlignment.start,
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Padding(
+                          padding: const EdgeInsets.all(6.0),
+                          child: ContainerWithContraints(
+
+                            height: 50,
+                            opacity: 0.5,
+                            width: MediaQuery.of(context)
+                                .size
+                                .width -
+                                5,
+                            color: primaryColor.withOpacity(0.3),
+                            widget: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Your next withdraw date is 13th August, 2022",
+                                  style: myStyle(
+                                      12,
+                                      secondaryColorDark,
+                                      FontWeight.bold),
+                                ),
+                                Text(
+                                  "Last withdraw date 07, August, 2022",
+                                  style: myStyle(
+                                      12,
+                                      textColorLight,
+                                      FontWeight.normal),
+                                ),
                               ],
                             ),
                           ),
-                        ],
-                      ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Text(
+                            "WITHDRAW WALLET",
+                            style: myStyle(15, secondaryColorDark,
+                                FontWeight.bold),
+                          ),
+                        ),
+
+                        /// Listview
+                        Expanded(
+                          child: SingleChildScrollView(
+                            scrollDirection: Axis.vertical,
+                            child: ListView.builder(
+                              physics:
+                              NeverScrollableScrollPhysics(),
+                              shrinkWrap: true,
+                              scrollDirection: Axis.vertical,
+                              itemBuilder: (context, index) {
+                                return Padding(
+                                  padding:
+                                  const EdgeInsets.all(5.0),
+                                  child: Container(
+                                    height: 60,
+                                    width: MediaQuery.of(context)
+                                        .size
+                                        .width -
+                                        5,
+                                    padding: EdgeInsets.all(5),
+                                    decoration: BoxDecoration(
+                                        border: Border.all(
+                                            color: textColorLight
+                                                .withOpacity(
+                                                0.5)),
+                                        color: Colors.white,
+                                        borderRadius:
+                                        BorderRadius.all(
+                                            Radius.circular(
+                                                5))),
+                                    child: Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment
+                                          .spaceBetween,
+                                      children: [
+                                        Column(
+                                          crossAxisAlignment:
+                                          CrossAxisAlignment
+                                              .start,
+                                          children: [
+                                            Text(
+                                              "Walve 1",
+                                              style: myStyle(
+                                                  12,
+                                                  secondaryColorDark,
+                                                  FontWeight
+                                                      .normal),
+                                            ),
+                                            SizedBox(height: 3),
+                                            Text(
+                                              "Muhammad Bin Rashid",
+                                              style: myStyle(
+                                                  15,
+                                                  secondaryColorDark,
+                                                  FontWeight
+                                                      .bold),
+                                            ),
+                                            SizedBox(height: 3),
+                                            Text(
+                                              "0000 1112421455124455445",
+                                              style: myStyle(
+                                                  12,
+                                                  textColorLight,
+                                                  FontWeight
+                                                      .normal),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(
+                                          width: 80,
+                                          height: 30,
+                                          child: InkWell(
+                                            onTap: (() {}),
+                                            child: Container(
+                                              alignment: Alignment
+                                                  .center,
+                                              child: Text(
+                                                "Withdraw",
+                                                style: myStyle(
+                                                    12,
+                                                    primaryColor,
+                                                    FontWeight
+                                                        .w400),
+                                              ),
+                                              padding: EdgeInsets
+                                                  .symmetric(
+                                                  vertical:
+                                                  3),
+                                              width:
+                                              double.infinity,
+                                              decoration: BoxDecoration(
+                                                  border: Border.all(
+                                                      color: textColorLight
+                                                          .withOpacity(
+                                                          0.5),
+                                                      width: 1),
+                                                  borderRadius:
+                                                  BorderRadius
+                                                      .circular(
+                                                      8)),
+                                            ),
+                                          ),
+                                        )
+                                      ],
+                                    ),
+                                  ),
+                                );
+                              },
+                              itemCount: 3,
+                            ),
+                          ),
+                        ),
+                        Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: Container(
+
+                            width: MediaQuery.of(context)
+                                .size
+                                .width -
+                                5,
+                            padding: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                                border: Border.all(
+                                    color: textColorLight
+                                        .withOpacity(0.5)),
+                                color: Colors.white,
+                                borderRadius: BorderRadius.all(
+                                    Radius.circular(5))),
+                            child: Column(
+                              crossAxisAlignment:
+                              CrossAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "ADD NEW WALLET",
+                                  style: myStyle(
+                                      15,
+                                      secondaryColorDark,
+                                      FontWeight.bold),
+                                ),
+                                SizedBox(height: 3),
+                                SizedBox(
+                                  height: 35,
+                                  width: MediaQuery.of(context)
+                                      .size
+                                      .width -
+                                      5,
+                                  child: InkWell(
+                                    onTap: (() {}),
+                                    child: Container(
+
+                                      alignment: Alignment.center,
+                                      child: Text(
+                                        "Add New Wallet",
+                                        style: myStyle(
+                                            12,
+                                            Colors.white,
+                                            FontWeight.w400),
+                                      ),
+                                      padding:
+                                      EdgeInsets.symmetric(
+                                          vertical: 3),
+                                      width: double.infinity,
+                                      decoration: BoxDecoration(
+                                          color: primaryColor,
+                                          borderRadius:
+                                          BorderRadius
+                                              .circular(8)),
+                                    ),
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
+                      ],
                     ),
-                  ],
+                  ),
                 ),
-              )
-            ],
+              ],
+            ),
           ),
         ),
       ),
-    ));
+    );
   }
 }
+
 
 Container ContainerWithContraints(
     {Widget? widget,

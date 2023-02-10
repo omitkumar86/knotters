@@ -20,10 +20,10 @@ final primaryBlack = Colors.black;
 
 myStyle (double size,[Color? color,FontWeight ?fw]){
   return GoogleFonts.anekMalayalam(
-    fontSize: size,
-    color: color,
-    fontWeight: fw,
-    height: 1.1
+      fontSize: size,
+      color: color,
+      fontWeight: fw,
+      height: 1.1
   );
 }myStylePoppins (double size,[Color? color,FontWeight ?fw]){
   return GoogleFonts.poppins(
@@ -36,24 +36,24 @@ myStyle (double size,[Color? color,FontWeight ?fw]){
 
 myStyleHeader ( ){
   return GoogleFonts.anekMalayalam(
-    fontSize: 22,
-    color: Colors.black87,
-    fontWeight: FontWeight.w700,
-    height: 1.1
+      fontSize: 22,
+      color: Colors.black87,
+      fontWeight: FontWeight.w700,
+      height: 1.1
   );
 }myStyleBody ( ){
   return GoogleFonts.anekMalayalam(
-    fontSize: 14,
-    color: textColorLight,
-    fontWeight: FontWeight.w600,
-    height: 1.1
+      fontSize: 14,
+      color: textColorLight,
+      fontWeight: FontWeight.w600,
+      height: 1.1
   );
 }myStylePaymentHeader ( ){
   return GoogleFonts.anekMalayalam(
-    fontSize: 20,
-    color: Colors.black,
-    fontWeight: FontWeight.w600,
-    height: 1.1,
+      fontSize: 20,
+      color: Colors.black,
+      fontWeight: FontWeight.w600,
+      height: 1.1,
       wordSpacing: 1.1,
       letterSpacing: 1
   );
@@ -69,8 +69,8 @@ SizedBox buildContainer({IconButton? iconButton, double? radius, Color? color, d
           borderRadius: BorderRadius.all(Radius.circular(radius!))
       ),
       child: Align(
-          alignment: Alignment.center,
-          child: iconButton,
+        alignment: Alignment.center,
+        child: iconButton,
       ),
     ),
   );
@@ -94,7 +94,7 @@ congratulationsDialog({BuildContext ?ctx, String? title, subTitle}) async {
 
   return showDialog(
     context: ctx!,
-   // barrierColor: scaffoldColor,
+    // barrierColor: scaffoldColor,
     barrierDismissible: false, // user must tap button!
     builder: (BuildContext context) {
 
@@ -116,13 +116,13 @@ congratulationsDialog({BuildContext ?ctx, String? title, subTitle}) async {
               ),
               Center(
                   child: Text(
-                   title?? "Congratulations",
+                    title?? "Congratulations",
                     style: myStyle(16,Colors.black87,FontWeight.w600),
                   )),
 
               Center(
                   child: Text(
-                   subTitle?? "Welcome to the Knotter Platform",
+                    subTitle?? "Welcome to the Knotter Platform",
                     style: myStyle(12,Colors.black54,FontWeight.w400),textAlign: TextAlign.center,
                   )),
               SizedBox(

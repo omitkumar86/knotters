@@ -1,15 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:knotters/miscellaneous_screen/privacy_policy_page.dart';
-import 'package:knotters/payment_method/add_money.dart';
-import 'package:knotters/payment_method/order_value.dart';
-import 'package:knotters/payment_method/payment_enter_pin.dart';
-import 'package:knotters/payment_method/payment_submit_code_page1.dart';
-import 'package:knotters/payment_method/payment_submit_code_page2.dart';
-import 'package:knotters/payment_method/payment_successful.dart';
-import 'package:knotters/payment_method/payment_successful_view_order.dart';
-import 'package:knotters/payment_method/select_payment_method.dart';
 import 'package:knotters/provider/auth_provider.dart';
 import 'package:knotters/provider/gig_provider.dart';
 import 'package:knotters/provider/student_profile_provider.dart';
@@ -31,17 +22,14 @@ import 'package:knotters/screen/gig/create_gig.dart';
 import 'package:knotters/screen/nav_bar/community.dart';
 import 'package:knotters/screen/nav_bar/sme_gigs.dart';
 import 'package:knotters/screen/nav_bar/growth.dart';
-import 'package:knotters/screen/nav_bar/profile.dart';
 import 'package:knotters/screen/on_boarding/on_boarding1.dart';
 import 'package:knotters/screen/on_boarding/on_boarding2.dart';
 import 'package:knotters/screen/on_boarding/on_boarding3.dart';
 import 'package:knotters/screen/on_boarding/splash_screen.dart';
 import 'package:knotters/screen/profile/students_profile.dart';
-import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/extra.dart';
 import 'package:knotters/widget/extra2.dart';
-import 'package:knotters/widget/extra_gig.dart';
 import 'package:provider/provider.dart';
 
 class MyHttpOverrides extends HttpOverrides{
@@ -81,8 +69,10 @@ class _MyAppState extends State<MyApp> {
     return MultiProvider(
       providers: [
         ChangeNotifierProvider(create: (_) {  return authProvider;  }),
-        ChangeNotifierProvider(create: (_) {return GigProvider();}),
-        ChangeNotifierProvider(create: (_) {return StudentProfileProvider();}),
+        ChangeNotifierProvider(create: (_) {  return StudentProfileProvider();  }),
+        ChangeNotifierProvider(create: (_) {
+          return GigProvider();
+        }),
 
       ],
       child: MaterialApp(
@@ -114,14 +104,13 @@ class _MyAppState extends State<MyApp> {
             AddResetOtpPage.id: (context) => AddResetOtpPage(),
             CreateNewPassword.id: (context) => CreateNewPassword(), 
             CommunityPage.id: (context) => CommunityPage(),
-            ProfilePage.id: (context) => ProfilePage(),
+           // ProfilePage.id: (context) => ProfilePage(),
             SmeGigsPage.id: (context) => SmeGigsPage(),
             GrowthPage.id: (context) => GrowthPage(),
             CreateGigPage.id: (context) => CreateGigPage(),
             BottomNavBarPage.id: (context) => BottomNavBarPage(),
           },
-          home: PrivacyPolicyPage(),
-      ),
+          home: SplashScreen()),
     );
   }
 }

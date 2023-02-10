@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 import 'package:knotters/provider/auth_provider.dart';
-import 'package:knotters/screen/auth/sign_in/sign_in.dart';
 import 'package:knotters/screen/nav_bar/community.dart';
 import 'package:knotters/screen/nav_bar/sme_gigs.dart';
 import 'package:knotters/screen/nav_bar/growth.dart';
@@ -11,7 +10,6 @@ import 'package:knotters/screen/profile/business_profile_page.dart';
 import 'package:knotters/screen/profile/students_profile.dart';
 import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
-import 'package:knotters/widget/custome_button.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavBarPage extends StatefulWidget {
@@ -45,7 +43,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
 
   PageController? pageController;
 
-  /* List<Widget> pages = [
+ /* List<Widget> pages = [
     CommunityPage(),
     SmeGigsPage(),
     HomePageDemo(),
@@ -96,215 +94,6 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
-                  AppbarButton(
-                    onTap: () {
-                      showDialog(
-                          context: context,
-                          builder: (BuildContext context) {
-                            return AlertDialog(
-                              alignment: Alignment.topCenter,
-                              content: Container(
-                                width: double.maxFinite,
-                                child: Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    mainAxisAlignment: MainAxisAlignment.start,
-                                    crossAxisAlignment:
-                                        CrossAxisAlignment.start,
-                                    children: <Widget>[
-                                      Padding(
-                                        padding: EdgeInsets.symmetric(
-                                            horizontal: 10),
-                                        child: Text(
-                                          "About our platform",
-                                          style: myStylePoppins(14,
-                                              primaryColor, FontWeight.w500),
-                                        ),
-                                      ),
-                                      Divider(),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            //color: primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Privacy Policy",
-                                                style: myStylePoppins(
-                                                    14, secondaryColorDark),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 10,
-                                                color: primaryColor,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            //color: primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Cookies Policy",
-                                                style: myStylePoppins(
-                                                    14, secondaryColorDark),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 10,
-                                                color: primaryColor,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            //color: primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Terms of service",
-                                                style: myStylePoppins(
-                                                    14, secondaryColorDark),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 10,
-                                                color: primaryColor,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            //color: primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Trust & Safety",
-                                                style: myStylePoppins(
-                                                    14, secondaryColorDark),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 10,
-                                                color: primaryColor,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),InkWell(
-                                        onTap: () {},
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            //color: primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "News & Events",
-                                                style: myStylePoppins(
-                                                    14, secondaryColorDark),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 10,
-                                                color: primaryColor,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                      InkWell(
-                                        onTap: () {
-                                         // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>SignInPage()));
-                                        },
-                                        child: Container(
-                                          padding: EdgeInsets.symmetric(
-                                              horizontal: 10),
-                                          height: 30,
-                                          decoration: BoxDecoration(
-                                            borderRadius:
-                                                BorderRadius.circular(5),
-                                            color: primaryColor,
-                                          ),
-                                          child: Row(
-                                            mainAxisAlignment:
-                                                MainAxisAlignment.spaceBetween,
-                                            children: [
-                                              Text(
-                                                "Log Out",
-                                                style: myStylePoppins(
-                                                    14, primaryWhite),
-                                              ),
-                                              Icon(
-                                                Icons.arrow_forward_ios,
-                                                size: 10,
-                                                color: primaryWhite,
-                                              ),
-                                            ],
-                                          ),
-                                        ),
-                                      ),
-                                    ]),
-                              ),
-                            );
-                          });
-                    },
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
                   selectedItem == 0
                       ? SvgPicture.asset(
                           "assets/menu_icon.svg",
@@ -318,18 +107,17 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
                               style: myStyle(24, Colors.black, FontWeight.w900),
                             )
                           : selectedItem == 3
+                      ? Text(
+                    "GROWTH",
+                    style: myStyle(24, Colors.black, FontWeight.w900),
+                  )
+                      : selectedItem == 4
                               ? Text(
-                                  "GROWTH",
+                                  "Profile",
                                   style: myStyle(
                                       24, Colors.black, FontWeight.w900),
                                 )
-                              : selectedItem == 4
-                                  ? Text(
-                                      "Profile",
-                                      style: myStyle(
-                                          24, Colors.black, FontWeight.w900),
-                                    )
-                                  : Text("sldkj"),
+                              : Text("sldkj"),
                   Spacer(),
                   app_bar_button(
                       onTap: () {
@@ -528,7 +316,9 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
                                 width: double.maxFinite,
                                 child: Column(
                                     mainAxisSize: MainAxisSize.min,
-                                    children: <Widget>[]),
+                                    children: <Widget>[
+
+                                    ]),
                               ),
                             );
                           });
@@ -654,14 +444,18 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
             ),
             Expanded(
               child: PageView(
-                physics: NeverScrollableScrollPhysics(),
+                 physics: NeverScrollableScrollPhysics(),
                 controller: pageController,
                 children: <Widget>[
                   CommunityPage(),
-                  accountType ? StudentGigsPage() : SmeGigsPage(),
+                  accountType
+                      ? StudentGigsPage()
+                      : SmeGigsPage(),
                   HomePageDemo(),
                   GrowthPage(),
-                  accountType? BusinessProfilePage():StudentProfilePage(),
+                  accountType
+                      ? StudentProfilePage()
+                      : BusinessProfilePage(),
                 ],
                 onPageChanged: onPageChange,
               ),
@@ -815,7 +609,7 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
                   ),
                 ),
                 onTap: () {
-                  // pageController!.jumpToPage(2);
+                 // pageController!.jumpToPage(2);
                 },
               ),
               bottom: 30,

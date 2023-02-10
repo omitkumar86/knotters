@@ -14,11 +14,12 @@ class StudentProfileHttpRequest{
         Uri.parse(urlLink),
         headers: await CustomHttpRequest.getHeaderWithToken(),
       );
-      var data = jsonDecode(responce.body.toString());
-      print("bbbbbbbbbbbbbbbbbbbbbbbbbbbbb ${responce.body}");
+      var data = jsonDecode(responce.body);
+      print("profile details areeeeeeeeeeeeeeeeeeeeeee ${responce.body}");
 
         studentProfileModel = StudentProfileModel.fromJson(data);
         studentProfileList.add(studentProfileModel);
+
       print("Name is -----------------${studentProfileList}");
       return studentProfileList;
     }

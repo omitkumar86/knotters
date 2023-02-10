@@ -1,14 +1,14 @@
 class SmeGigModel {
   int? id;
-  String? skillCategoryId;
-  String? skillSubCategoryId;
-  String? clientUserId;
+  int? skillCategoryId;
+  int? skillSubCategoryId;
+  int? clientUserId;
   String? jobUniqueCode;
   String? projectTitle;
   String? projectDescription;
-  String? experienceLevel;
-  dynamic? budgetType;
-  String? budget;
+  int? experienceLevel;
+  int? budgetType;
+  int? budget;
   dynamic? budgetPerHour;
   dynamic? totalHour;
   dynamic? totalBudgetForClient;
@@ -29,14 +29,15 @@ class SmeGigModel {
   String? jobPostSlug;
   dynamic? postExpireDate;
   String? postExpireDateTimestamp;
-  String? status;
+  int? status;
   String? createdAt;
   String? updatedAt;
   User? user;
   List<JobPostFiles>? jobPostFiles;
   SkillCategory? skillCategory;
   SkillSubCategory? skillSubCategory;
-  List<dynamic>? skills;
+  List<Skills>? skills;
+  List<ApplyJobs>? applyJobs;
 
   SmeGigModel(
       {this.id,
@@ -76,7 +77,8 @@ class SmeGigModel {
         this.jobPostFiles,
         this.skillCategory,
         this.skillSubCategory,
-        this.skills});
+        this.skills,
+        this.applyJobs});
 
   SmeGigModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -128,9 +130,15 @@ class SmeGigModel {
         ? new SkillSubCategory.fromJson(json['skill_sub_category'])
         : null;
     if (json['skills'] != null) {
-      skills = <dynamic>[];
+      skills = <Skills>[];
       json['skills'].forEach((v) {
-        //skills!.add(  dynamic.fromJson(v));
+        skills!.add(new Skills.fromJson(v));
+      });
+    }
+    if (json['apply_jobs'] != null) {
+      applyJobs = <ApplyJobs>[];
+      json['apply_jobs'].forEach((v) {
+        applyJobs!.add(new ApplyJobs.fromJson(v));
       });
     }
   }
@@ -188,28 +196,31 @@ class SmeGigModel {
     if (this.skills != null) {
       data['skills'] = this.skills!.map((v) => v.toJson()).toList();
     }
+    if (this.applyJobs != null) {
+      data['apply_jobs'] = this.applyJobs!.map((v) => v.toJson()).toList();
+    }
     return data;
   }
 }
 
 class User {
   int? id;
-  String? userDetailsId;
+  int? userDetailsId;
   String? name;
   String? email;
   dynamic? emailVerifiedAt;
   dynamic? twoFactorConfirmedAt;
-  String? userRoleType;
+  int? userRoleType;
   dynamic? accountType;
-  String? accountStatus;
-  String? submitStatus;
+  int? accountStatus;
+  int? submitStatus;
   dynamic? currentTeamId;
   dynamic? profilePhotoPath;
   String? createdAt;
   String? updatedAt;
-  String? activeStatus;
+  int? activeStatus;
   String? avatar;
-  String? darkMode;
+  int? darkMode;
   String? messengerColor;
   UserDetails? userDetails;
 
@@ -412,7 +423,7 @@ class UserDetails {
 
 class JobPostFiles {
   int? id;
-  String? jobPostId;
+  int? jobPostId;
   String? fileUrl;
   String? fileType;
   dynamic? fileSize;
@@ -455,7 +466,7 @@ class SkillCategory {
   int? id;
   String? categoryName;
   String? slug;
-  String? status;
+  int? status;
   String? createdAt;
   String? updatedAt;
 
@@ -490,10 +501,10 @@ class SkillCategory {
 
 class SkillSubCategory {
   int? id;
-  String? skillCategoryId;
+  int? skillCategoryId;
   String? subCategoryName;
   String? slug;
-  String? status;
+  int? status;
   String? createdAt;
   String? updatedAt;
 
@@ -525,6 +536,145 @@ class SkillSubCategory {
     data['status'] = this.status;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    return data;
+  }
+}
+
+class Skills {
+  int? id;
+  int? skillCategoryId;
+  int? skillSubCategoryId;
+  String? skillName;
+  String? slug;
+  int? status;
+  String? createdAt;
+  String? updatedAt;
+  Pivot? pivot;
+
+  Skills(
+      {this.id,
+        this.skillCategoryId,
+        this.skillSubCategoryId,
+        this.skillName,
+        this.slug,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.pivot});
+
+  Skills.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    skillCategoryId = json['skill_category_id'];
+    skillSubCategoryId = json['skill_sub_category_id'];
+    skillName = json['skill_name'];
+    slug = json['slug'];
+    status = json['status'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    pivot = json['pivot'] != null ? new Pivot.fromJson(json['pivot']) : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['skill_category_id'] = this.skillCategoryId;
+    data['skill_sub_category_id'] = this.skillSubCategoryId;
+    data['skill_name'] = this.skillName;
+    data['slug'] = this.slug;
+    data['status'] = this.status;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.pivot != null) {
+      data['pivot'] = this.pivot!.toJson();
+    }
+    return data;
+  }
+}
+
+class Pivot {
+  int? jobPostId;
+  int? skillId;
+
+  Pivot({this.jobPostId, this.skillId});
+
+  Pivot.fromJson(Map<String, dynamic> json) {
+    jobPostId = json['job_post_id'];
+    skillId = json['skill_id'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['job_post_id'] = this.jobPostId;
+    data['skill_id'] = this.skillId;
+    return data;
+  }
+}
+
+class ApplyJobs {
+  int? id;
+  int? jobPostId;
+  int? freelancerUserId;
+  dynamic? proposalText;
+  dynamic? budgetProposal;
+  int? firstTimeProposalSubmit;
+  dynamic? projectStartingDate;
+  dynamic? projectEndingDate;
+  int? isSelectedForProject;
+  int? status;
+  String? createdAt;
+  String? updatedAt;
+  User? freelancerDetails;
+
+  ApplyJobs(
+      {this.id,
+        this.jobPostId,
+        this.freelancerUserId,
+        this.proposalText,
+        this.budgetProposal,
+        this.firstTimeProposalSubmit,
+        this.projectStartingDate,
+        this.projectEndingDate,
+        this.isSelectedForProject,
+        this.status,
+        this.createdAt,
+        this.updatedAt,
+        this.freelancerDetails});
+
+  ApplyJobs.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    jobPostId = json['job_post_id'];
+    freelancerUserId = json['freelancer_user_id'];
+    proposalText = json['proposal_text'];
+    budgetProposal = json['budget_proposal'];
+    firstTimeProposalSubmit = json['first_time_proposal_submit'];
+    projectStartingDate = json['project_starting_date'];
+    projectEndingDate = json['project_ending_date'];
+    isSelectedForProject = json['is_selected_for_project'];
+    status = json['status'];
+    createdAt = json['created_at'];
+    updatedAt = json['updated_at'];
+    freelancerDetails = json['freelancer_details'] != null
+        ? new User.fromJson(json['freelancer_details'])
+        : null;
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = this.id;
+    data['job_post_id'] = this.jobPostId;
+    data['freelancer_user_id'] = this.freelancerUserId;
+    data['proposal_text'] = this.proposalText;
+    data['budget_proposal'] = this.budgetProposal;
+    data['first_time_proposal_submit'] = this.firstTimeProposalSubmit;
+    data['project_starting_date'] = this.projectStartingDate;
+    data['project_ending_date'] = this.projectEndingDate;
+    data['is_selected_for_project'] = this.isSelectedForProject;
+    data['status'] = this.status;
+    data['created_at'] = this.createdAt;
+    data['updated_at'] = this.updatedAt;
+    if (this.freelancerDetails != null) {
+      data['freelancer_details'] = this.freelancerDetails!.toJson();
+    }
     return data;
   }
 }

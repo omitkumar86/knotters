@@ -2,7 +2,9 @@ import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:knotters/model/student_gig_model.dart';
 import 'package:knotters/provider/gig_provider.dart';
+import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
+import 'package:knotters/widget/custome_button.dart';
 import 'package:provider/provider.dart';
 import 'package:z_time_ago/z_time_ago.dart';
 
@@ -50,7 +52,6 @@ class _StudentGigsPageState extends State<StudentGigsPage> {
                   "EXPLORE ALL GIGS",
                   style: myStyle(20, Colors.black87, FontWeight.w700),
                 ),
-
                 Container(
                   margin: EdgeInsets.symmetric(vertical: 20),
                   width: double.infinity,
@@ -60,7 +61,7 @@ class _StudentGigsPageState extends State<StudentGigsPage> {
                       borderRadius: BorderRadius.circular(12)),
                   child: allStudentGigList.isEmpty
                       ? Container(
-                    height: MediaQuery.of(context).size.height*0.65,
+                          height: MediaQuery.of(context).size.height * 0.65,
                           child: Center(
                             child: Text(
                               "No Gigs Found",
@@ -80,12 +81,13 @@ class _StudentGigsPageState extends State<StudentGigsPage> {
                               }
                             });
                             var result = ZTimeAgo().getTimeAgo(
-                              date: DateTime.parse(
-                                  allStudentGigList[index].createdAt.toString()),
+                              date: DateTime.parse(allStudentGigList[index]
+                                  .createdAt
+                                  .toString()),
                               language: Language.english,
                             );
                             return allStudentGigList[index].status == 1
-                                ? Container(
+                                ? /*Container(
                                     margin: EdgeInsets.symmetric(vertical: 6),
                                     decoration: BoxDecoration(
                                         borderRadius: BorderRadius.circular(12),
@@ -145,7 +147,7 @@ class _StudentGigsPageState extends State<StudentGigsPage> {
                                                       FontWeight.w700),
                                                   maxLines: 3,
                                                 ),
-                                                /* Html(
+                                                */ /* Html(
                                         data: '${  allStudentGigList[index].projectDescription}',
                                         style: {
                                           '#': Style(
@@ -153,14 +155,132 @@ class _StudentGigsPageState extends State<StudentGigsPage> {
                                             maxLines: 2,
                                             textOverflow: TextOverflow.ellipsis,
                                           ),
-                                        }),*/
+                                        }),*/ /*
                                               ],
                                               crossAxisAlignment:
                                                   CrossAxisAlignment.start,
                                             ))
                                       ],
                                     ),
-                                  )
+                                  )*/
+                                  Container(
+                                    decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(12),
+                                      border: Border.all(color: primaryColor)
+                                    ),
+                                    margin:EdgeInsets.only(bottom: 16),
+                                      padding: const EdgeInsets.all(5.0),
+                                      child: Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Row(
+                                            mainAxisAlignment:
+                                                MainAxisAlignment.spaceBetween,
+                                            children: [
+                                              Row(
+                                                children: [
+                                                  Container(
+                                                    padding:
+                                                        EdgeInsets.symmetric(
+                                                            horizontal: 8,
+                                                            vertical: 8),
+                                                    decoration: BoxDecoration(
+                                                        color:
+                                                            primaryColorLight,
+                                                        shape: BoxShape.circle),
+                                                    child: CachedNetworkImage(
+                                                      height: 25,
+                                                      imageUrl: "",
+                                                      // placeholder: (context, url) => CircularProgressIndicator(),
+                                                      errorWidget: (context,
+                                                              url, error) =>
+                                                          Image.asset(
+                                                              "assets/choose_auth.png"),
+                                                    ),
+                                                  ),
+                                                  SizedBox(
+                                                    width: 5,
+                                                  ),
+                                                  Text(
+                                                    "${allStudentGigList[index].projectTitle}",
+                                                    style: myStyle(
+                                                        15,
+                                                        secondaryColorDark,
+                                                        FontWeight.bold),
+                                                  ),
+                                                ],
+                                              ),
+                                              ContainerWithContraints(
+                                                widget: Text(
+                                                  "\$50",
+                                                  style: myStyle(
+                                                      13,
+                                                      secondaryColorDark,
+                                                      FontWeight.bold),
+                                                ),
+                                              ),
+                                            ],
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                          Text(
+                                            "In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
+                                            style: myStyle(11, textColorLight,
+                                                FontWeight.normal),
+                                          ),
+                                          SizedBox(
+                                            height: 5,
+                                          ),
+                                           Row(
+                                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                      children: [
+                                        BorderButton(
+                                          onTap: ((){}),
+                                          title: Text("Graphic Design",style: myStyle(10,textColorLight,FontWeight.w400),),
+                                          height: 30,
+                                          width: 80,
+                                        ),
+                                        BorderButton(
+                                          onTap: ((){}),
+                                          title: Text("$result",style: myStyle(10,textColorLight,FontWeight.w400),maxLines: 1,),
+                                          height: 30,
+                                          width: 80,
+                                        ),
+                                        BorderButton(
+                                          onTap: ((){}),
+                                          title: Row(
+                                            crossAxisAlignment: CrossAxisAlignment.center,
+                                            mainAxisAlignment: MainAxisAlignment.center,
+                                            children: [
+                                              Icon(Icons.location_on, color: textColorLight, size: 12,),
+                                              Text("Abu Dhabi",style: myStyle(10,textColorLight,FontWeight.w400),),
+                                            ],
+                                          ),
+                                          height: 30,
+                                          width: 60,
+                                        ),
+                                        BorderButton(
+                                          onTap: ((){}),
+                                          title: Text("Single Gig",style: myStyle(10,textColorLight,FontWeight.w400),),
+                                          height: 30,
+                                          width: 60,
+                                        ),
+                                      ],
+                                    ),
+
+                                          SizedBox(
+                                            height: 10,
+                                          ),
+                                         MaterialButton(onPressed: (){},color: primaryColor,
+                                         child: Text("Apply To This GIG",style: myStyle(14,Colors.white,FontWeight.w600),),minWidth: double.infinity,
+                                           shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
+                                         )
+                                        ],
+                                      ),
+                                    )
+
                                 : SizedBox(
                                     height: 0,
                                   );
