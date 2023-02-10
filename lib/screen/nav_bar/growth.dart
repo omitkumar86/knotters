@@ -71,7 +71,9 @@ class _GrowthPageState extends State<GrowthPage>
                           children: [
                             InkWell(
                               child: Icon(Icons.more_horiz),
-                              onTap: (){},),
+                              onTap: (){
+                                customLogoutFunction(context);
+                              },),
                           ],
                         ),
                         Row(

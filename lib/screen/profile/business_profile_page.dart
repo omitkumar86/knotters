@@ -69,7 +69,9 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> {
                           children: [
                             InkWell(
                                 child: Icon(Icons.more_horiz),
-                            onTap: (){},),
+                            onTap: (){
+                              customLogoutFunction(context);
+                            },),
                           ],
                         ),
                         Row(

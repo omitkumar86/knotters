@@ -98,7 +98,9 @@ class _StudentProfilePageState extends State<StudentProfilePage>with  SingleTick
                             buildContainer(
                                 iconButton: IconButton(
                                   padding: EdgeInsets.zero,
-                                  onPressed: (() {}),
+                                  onPressed: (() {
+                                    customLogoutFunction(context);
+                                  }),
                                   icon: const Icon(
                                     Icons.settings_outlined,
                                     size: 18,
