@@ -10,6 +10,7 @@ import 'package:knotters/screen/profile/business_profile_page.dart';
 import 'package:knotters/screen/profile/students_profile.dart';
 import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
+import 'package:knotters/widget/custome_button.dart';
 import 'package:provider/provider.dart';
 
 class BottomNavBarPage extends StatefulWidget {
@@ -94,6 +95,14 @@ class _BottomNavBarPageState extends State<BottomNavBarPage> {
               child: Row(
                 mainAxisSize: MainAxisSize.min,
                 children: [
+                  AppbarButton(
+                    onTap: () {
+
+                    },
+                  ),
+                  SizedBox(
+                    width: 10,
+                  ),
                   selectedItem == 0
                       ? SvgPicture.asset(
                           "assets/menu_icon.svg",

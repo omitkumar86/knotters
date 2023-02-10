@@ -186,3 +186,208 @@ customRadioButton(){
     ),
   );
 }
+
+customLogoutFunction(BuildContext context){
+  return showDialog(
+      context: context,
+      builder: (BuildContext context) {
+        return AlertDialog(
+          alignment: Alignment.topCenter,
+          content: Container(
+            width: double.maxFinite,
+            child: Column(
+                mainAxisSize: MainAxisSize.min,
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment:
+                CrossAxisAlignment.start,
+                children: <Widget>[
+                  Padding(
+                    padding: EdgeInsets.symmetric(
+                        horizontal: 10),
+                    child: Text(
+                      "About our platform",
+                      style: myStylePoppins(14,
+                          primaryColor, FontWeight.w500),
+                    ),
+                  ),
+                  Divider(),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(5),
+                        //color: primaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Privacy Policy",
+                            style: myStylePoppins(
+                                14, secondaryColorDark),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                            color: primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(5),
+                        //color: primaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Cookies Policy",
+                            style: myStylePoppins(
+                                14, secondaryColorDark),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                            color: primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(5),
+                        //color: primaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Terms of service",
+                            style: myStylePoppins(
+                                14, secondaryColorDark),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                            color: primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(5),
+                        //color: primaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Trust & Safety",
+                            style: myStylePoppins(
+                                14, secondaryColorDark),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                            color: primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),InkWell(
+                    onTap: () {},
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(5),
+                        //color: primaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "News & Events",
+                            style: myStylePoppins(
+                                14, secondaryColorDark),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                            color: primaryColor,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                  InkWell(
+                    onTap: () {
+                      // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>SignInPage()));
+                    },
+                    child: Container(
+                      padding: EdgeInsets.symmetric(
+                          horizontal: 10),
+                      height: 30,
+                      decoration: BoxDecoration(
+                        borderRadius:
+                        BorderRadius.circular(5),
+                        color: primaryColor,
+                      ),
+                      child: Row(
+                        mainAxisAlignment:
+                        MainAxisAlignment.spaceBetween,
+                        children: [
+                          Text(
+                            "Log Out",
+                            style: myStylePoppins(
+                                14, primaryWhite),
+                          ),
+                          Icon(
+                            Icons.arrow_forward_ios,
+                            size: 10,
+                            color: primaryWhite,
+                          ),
+                        ],
+                      ),
+                    ),
+                  ),
+                ]),
+          ),
+        );
+      });
+}
