@@ -3,8 +3,8 @@ import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/const_string.dart';
 import 'package:knotters/widget/custome_button.dart';
 
-class PrivacyPolicyPage extends StatelessWidget {
-  const PrivacyPolicyPage({Key? key}) : super(key: key);
+class CookiesPolicyPage extends StatelessWidget {
+  const CookiesPolicyPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,10 +29,10 @@ class PrivacyPolicyPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Privacy Policy", style: myStylePoppins(16, primaryColor),),
+                      Text("Cookies Policy", style: myStylePoppins(16, primaryColor),),
                       Divider(),
                       SizedBox(height: 10,),
-                      Text("1. Types of Data We Collect", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
+                      Text("1. Types of Cookies We Collect", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
                       SizedBox(height: 10,),
                       Text(typeOfData, style: myStylePoppins(10, primaryBlack), textAlign: TextAlign.justify,),
                       SizedBox(height: 15,),

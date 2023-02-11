@@ -50,5 +50,18 @@ class GigHttpRequest{
     }
   }
 
+  static Future<dynamic> studentApplyGig(String gigSlug)async{
+    try{
+      var link =
+      Uri.parse("${baseUrl}freelancer/apply-gig/$gigSlug");
+      var responce=await http.post(Uri.parse("$link"),headers: await CustomHttpRequest.getHeaderWithToken(),);
+      var data=jsonDecode(responce.body);
+      return data;
+    }catch(e){
+      print(e.toString());
+
+    }
+  }
+
 
 }

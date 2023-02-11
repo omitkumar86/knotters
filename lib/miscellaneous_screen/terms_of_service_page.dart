@@ -3,8 +3,8 @@ import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/const_string.dart';
 import 'package:knotters/widget/custome_button.dart';
 
-class PrivacyPolicyPage extends StatelessWidget {
-  const PrivacyPolicyPage({Key? key}) : super(key: key);
+class TermsOfServicePage extends StatelessWidget {
+  const TermsOfServicePage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
@@ -29,22 +29,27 @@ class PrivacyPolicyPage extends StatelessWidget {
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("Privacy Policy", style: myStylePoppins(16, primaryColor),),
+                      Text("Terms & Conditions", style: myStylePoppins(16, primaryColor),),
+                      Text("updated at 2022-08-06", style: myStylePoppins(8, textColorLight),),
                       Divider(),
                       SizedBox(height: 10,),
-                      Text("1. Types of Data We Collect", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
+                      Text("General Terms", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
                       SizedBox(height: 10,),
                       Text(typeOfData, style: myStylePoppins(10, primaryBlack), textAlign: TextAlign.justify,),
                       SizedBox(height: 15,),
-                      Text("2. Use of your Personal Data", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
+                      Text("Selling & Buying", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
                       SizedBox(height: 10,),
                       Text(typeOfData, style: myStylePoppins(10, primaryBlack), textAlign: TextAlign.justify,),
                       SizedBox(height: 15,),
-                      Text("3. Discloser of your Personal Data", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
+                      Text("Definitions & Key Terms", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
                       SizedBox(height: 10,),
                       Text(typeOfData, style: myStylePoppins(10, primaryBlack), textAlign: TextAlign.justify,),
                       SizedBox(height: 15,),
-                      Text("4. Data we do not collect", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
+                      Text("Payments", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
+                      SizedBox(height: 10,),
+                      Text(typeOfData, style: myStylePoppins(10, primaryBlack), textAlign: TextAlign.justify,),
+                      SizedBox(height: 15,),
+                      Text("Restrictions", style: myStylePoppins(13, primaryBlack, FontWeight.w500),),
                       SizedBox(height: 10,),
                       Text(typeOfData, style: myStylePoppins(10, primaryBlack), textAlign: TextAlign.justify,),
                     ],

@@ -3,6 +3,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:knotters/miscellaneous_screen/cookies_policy_page.dart';
+import 'package:knotters/miscellaneous_screen/privacy_policy_page.dart';
+import 'package:knotters/miscellaneous_screen/terms_of_service_page.dart';
+import 'package:knotters/miscellaneous_screen/trust_and_safety_page.dart';
 import 'package:knotters/screen/auth/choose_auth.dart';
 
 
@@ -213,7 +217,9 @@ customLogoutFunction(BuildContext context){
                   ),
                   Divider(),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>PrivacyPolicyPage()));
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10),
@@ -242,7 +248,9 @@ customLogoutFunction(BuildContext context){
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>CookiesPolicyPage()));
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10),
@@ -271,7 +279,9 @@ customLogoutFunction(BuildContext context){
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TermsOfServicePage()));
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10),
@@ -300,7 +310,9 @@ customLogoutFunction(BuildContext context){
                     ),
                   ),
                   InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>TrustAndSafetyPage()));
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10),
@@ -398,7 +410,7 @@ logoutAlert(BuildContext context){
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          alignment: Alignment.topCenter,
+          alignment: Alignment.center,
           content: Container(
             width: double.maxFinite,
             child: Column(

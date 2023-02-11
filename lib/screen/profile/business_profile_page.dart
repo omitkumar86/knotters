@@ -1,11 +1,18 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:instagram_mention/instagram_mention.dart';
+import 'package:knotters/http/custome_http.dart';
+import 'package:knotters/model/sme_gig_model.dart';
+import 'package:knotters/model/student_profile_model.dart';
 import 'package:knotters/provider/auth_provider.dart';
+import 'package:knotters/provider/gig_provider.dart';
+import 'package:knotters/provider/student_profile_provider.dart';
 import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 import 'package:provider/provider.dart';
+import 'package:z_time_ago/z_time_ago.dart';
 
 class BusinessProfilePage extends StatefulWidget {
   static const String id = 'BusinessProfilePage';
@@ -16,6 +23,14 @@ class BusinessProfilePage extends StatefulWidget {
 }
 
 class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTickerProviderStateMixin {
+  List<SmeGigModel> allSmeGig = [];
+
+  fetchAllSmeGigs() async {
+    await Provider.of<GigProvider>(context, listen: false).getAllSmeGig();
+    setState(() {});
+    print("xxxxxxxxxxxxx${allSmeGig.length}");
+  }
+
   int selectedItem = 0;
   /// tab
   TabController? _tabController;
@@ -37,9 +52,10 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
   // }
   @override
   void initState() {
+    Provider.of<StudentProfileProvider>(context, listen: false).getStudentProfileData();
     _scrollController = ScrollController();
     _tabController = TabController(length: 4, vsync: this);
-
+    fetchAllSmeGigs();
     super.initState();
   }
   @override
@@ -48,8 +64,15 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
   }
   late ScrollController _scrollController;
   PageController? pageController;
+
+  List<StudentProfileModel> studentProfileList = [];
+
   @override
   Widget build(BuildContext context) {
+    studentProfileList = Provider.of<StudentProfileProvider>(context).studentProfileList;
+    allSmeGig = Provider.of<GigProvider>(
+      context,
+    ).allSmeGigList;
     return Scaffold(
       body: Container(
         margin: EdgeInsets.only(top: 10,left: 16,right: 16),
@@ -114,7 +137,7 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                           height: 10,
                         ),
                         Text(
-                          "User ID",
+                          "User ID: ${studentProfileList[0].user!.id.toString()}",
                           style: myStyleBody(),
                         ),
                         SizedBox(
@@ -647,11 +670,32 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                             children: [
                               Text("ACTIVE GIG'S ORDERS", style: myStyle(16, secondaryColorDark, FontWeight.bold),),
                               SizedBox(height: 10,),
-                              ListView.separated(
+                              allSmeGig.isEmpty
+                                  ? SizedBox(
+                                height: 300,
+                                child: Center(
+                                  child: Text(
+                                    "No Gigs Found",
+                                    style: myStyle(16, Colors.black54),
+                                  ),
+                                ),
+                              ):ListView.separated(
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index){
-                                  return Column(
+                                  allSmeGig.forEach((element) {
+                                    int total = 1;
+                                    if (element.status == 1) {
+                                      total++;
+                                    }
+                                  });
+                                  var result = ZTimeAgo().getTimeAgo(
+                                    date: DateTime.parse(
+                                        allSmeGig[index].createdAt.toString()),
+                                    language: Language.english,
+                                  );
+                                  return allSmeGig[index].status == 1
+                                      ?Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       InkWell(
@@ -669,27 +713,66 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                                                   children: [
                                                     Row(
                                                       children: [
+                                                        // Container(
+                                                        //   height: 30,
+                                                        //   width: 30,
+                                                        //   decoration: BoxDecoration(
+                                                        //     color: Colors.white,
+                                                        //     border: Border.all(color: secondaryColor),
+                                                        //     shape: BoxShape.circle,
+                                                        //   ),
+                                                        //   child: CachedNetworkImage(
+                                                        //     height: 30,
+                                                        //     imageUrl: "${imageUrl}${{
+                                                        //       allSmeGig[index]
+                                                        //           .user!
+                                                        //           .userDetails!
+                                                        //           .profileImage
+                                                        //     }}",
+                                                        //     // placeholder: (context, url) => CircularProgressIndicator(),
+                                                        //     errorWidget: (context,
+                                                        //         url, error) =>
+                                                        //         Image.asset(
+                                                        //             "assets/choose_auth.png"),
+                                                        //   ),
+                                                        // ),
                                                         Container(
-                                                          height: 30,
-                                                          width: 30,
+                                                          padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 8),
                                                           decoration: BoxDecoration(
-                                                            color: Colors.white,
-                                                            border: Border.all(color: secondaryColor),
-                                                            shape: BoxShape.circle,
+                                                              color:
+                                                              primaryColorLight,
+                                                              shape: BoxShape.circle),
+                                                          child: CachedNetworkImage(
+                                                            height: 20,
+                                                            imageUrl: "${imageUrl}${{
+                                                              allSmeGig[index]
+                                                                  .user!
+                                                                  .userDetails!
+                                                                  .profileImage
+                                                            }}",
+                                                            // placeholder: (context, url) => CircularProgressIndicator(),
+                                                            errorWidget: (context,
+                                                                url, error) =>
+                                                                Image.asset(
+                                                                    "assets/choose_auth.png"),
                                                           ),
                                                         ),
                                                         SizedBox(width: 5,),
-                                                        Text("Graphics designer for event", style: myStyle(15, secondaryColorDark, FontWeight.bold),),
+                                                        Text("${allSmeGig[index].projectTitle}", style: myStyle(15, secondaryColorDark, FontWeight.bold),),
                                                       ],
                                                     ),
                                                     ContainerWithContraints(
-                                                      widget: Text("\$50", style: myStyle(10, secondaryColorDark, FontWeight.bold),),
+                                                      widget: Text("\$${allSmeGig[index].budget}", style: myStyle(10, secondaryColorDark, FontWeight.bold),),
                                                     ),
                                                   ],
                                                 ),
                                                 SizedBox(height: 5,),
-                                                Text("In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                                                  style: myStyle(10, textColorLight, FontWeight.normal),),
+                                                Text("${allSmeGig[index].projectDescription}",
+                                                  style: myStyle(10, textColorLight, FontWeight.normal),
+                                                maxLines: 3,),
                                                 SizedBox(height: 5,),
                                                 Row(
                                                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -702,7 +785,7 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                                                     ),
                                                     BorderButton(
                                                       onTap: ((){}),
-                                                      title: Text("8 Days",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                      title: Text("$result",style: myStyle(8,textColorLight,FontWeight.w400),),
                                                       height: 30,
                                                       width: 50,
                                                     ),
@@ -713,7 +796,7 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                                                         mainAxisAlignment: MainAxisAlignment.center,
                                                         children: [
                                                           Icon(Icons.location_on, color: textColorLight, size: 12,),
-                                                          Text("Abu Dhabi",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                          Text("${allSmeGig[index].jobLocationCity}",style: myStyle(8,textColorLight,FontWeight.w400),),
                                                         ],
                                                       ),
                                                       height: 30,
@@ -734,20 +817,22 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                                         onTap: (){},
                                       ),
                                     ],
+                                  ): SizedBox(
+                                    height: 0,
                                   );
                                 },
                                 separatorBuilder: (context, index) {
                                   return SizedBox(height: 5,);
                                 },
-                                itemCount: 3,
+                                itemCount: allSmeGig.length,
                               ),
                             ],
                           ),
                         ),
                         SizedBox(height: 10,),
                         ///Gig History
-                        Container(
-
+                        allSmeGig.isNotEmpty
+                            ? Container(
                           width: MediaQuery.of(context).size.width - 5,
                           padding: EdgeInsets.all(10),
                           decoration: BoxDecoration(
@@ -764,95 +849,131 @@ class _BusinessProfilePageState extends State<BusinessProfilePage> with SingleTi
                                 physics: NeverScrollableScrollPhysics(),
                                 shrinkWrap: true,
                                 itemBuilder: (context, index){
-                                  return Column(
+                                  var result = ZTimeAgo().getTimeAgo(
+                                    date: DateTime.parse(
+                                        allSmeGig[index].createdAt.toString()),
+                                    language: Language.english,
+                                  );
+                                  int total = 1;
+                                  allSmeGig.forEach((element) {
+                                    if (element.status == 2) {
+                                      total++;
+                                    }
+                                  });
+
+                                  return allSmeGig[index].status == 2
+                                      ? Column(
                                     crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      CommonContainer(
-                                        context: context,
-                                        height: 130,
-                                        radius: 5,
-                                        widget: Padding(
-                                          padding: const EdgeInsets.all(5.0),
-                                          child: Column(
-                                            crossAxisAlignment: CrossAxisAlignment.start,
-                                            children: [
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  Row(
-                                                    children: [
-                                                      Container(
-                                                        height: 30,
-                                                        width: 30,
-                                                        decoration: BoxDecoration(
-                                                          color: Colors.white,
-                                                          border: Border.all(color: secondaryColor),
-                                                          shape: BoxShape.circle,
-                                                        ),
-                                                      ),
-                                                      SizedBox(width: 5,),
-                                                      Text("Graphics designer for event", style: myStyle(15, secondaryColorDark, FontWeight.bold),),
-                                                    ],
-                                                  ),
-                                                  ContainerWithContraints(
-                                                    widget: Text("\$50", style: myStyle(10, secondaryColorDark, FontWeight.bold),),
-                                                  ),
-                                                ],
-                                              ),
-                                              SizedBox(height: 5,),
-                                              Text("In publishing and graphic design, Lorem ipsum is a placeholder text commonly used to demonstrate the visual form of a document or a typeface without relying on meaningful content.",
-                                                style: myStyle(10, textColorLight, FontWeight.normal),),
-                                              SizedBox(height: 5,),
-                                              Row(
-                                                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                                children: [
-                                                  BorderButton(
-                                                    onTap: ((){}),
-                                                    title: Text("Graphic Design",style: myStyle(8,textColorLight,FontWeight.w400),),
-                                                    height: 30,
-                                                    width: 70,
-                                                  ),
-                                                  BorderButton(
-                                                    onTap: ((){}),
-                                                    title: Text("8 Days",style: myStyle(8,textColorLight,FontWeight.w400),),
-                                                    height: 30,
-                                                    width: 50,
-                                                  ),
-                                                  BorderButton(
-                                                    onTap: ((){}),
-                                                    title: Row(
-                                                      crossAxisAlignment: CrossAxisAlignment.center,
-                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                      InkWell(
+                                        child: CommonContainer(
+                                          context: context,
+                                          height: 130,
+                                          radius: 5,
+                                          widget: Padding(
+                                            padding: const EdgeInsets.all(5.0),
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    Row(
                                                       children: [
-                                                        Icon(Icons.location_on, color: textColorLight, size: 12,),
-                                                        Text("Abu Dhabi",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                        Container(
+                                                          padding:
+                                                          EdgeInsets.symmetric(
+                                                              horizontal: 8,
+                                                              vertical: 8),
+                                                          decoration: BoxDecoration(
+                                                              color:
+                                                              primaryColorLight,
+                                                              shape: BoxShape.circle),
+                                                          child: CachedNetworkImage(
+                                                            height: 20,
+                                                            imageUrl: "${imageUrl}${{
+                                                              allSmeGig[index]
+                                                                  .user!
+                                                                  .userDetails!
+                                                                  .profileImage
+                                                            }}",
+                                                            // placeholder: (context, url) => CircularProgressIndicator(),
+                                                            errorWidget: (context,
+                                                                url, error) =>
+                                                                Image.asset(
+                                                                    "assets/choose_auth.png"),
+                                                          ),
+                                                        ),
+                                                        SizedBox(width: 5,),
+                                                        Text("${allSmeGig[index].projectTitle}", style: myStyle(15, secondaryColorDark, FontWeight.bold),),
                                                       ],
                                                     ),
-                                                    height: 30,
-                                                    width: 60,
-                                                  ),
-                                                  BorderButton(
-                                                    onTap: ((){}),
-                                                    title: Text("Single Gig",style: myStyle(8,textColorLight,FontWeight.w400),),
-                                                    height: 30,
-                                                    width: 60,
-                                                  ),
-                                                ],
-                                              ),
-                                            ],
+                                                    ContainerWithContraints(
+                                                      widget: Text("\$${allSmeGig[index].budget}", style: myStyle(10, secondaryColorDark, FontWeight.bold),),
+                                                    ),
+                                                  ],
+                                                ),
+                                                SizedBox(height: 5,),
+                                                Text("${allSmeGig[index].projectDescription}",
+                                                  style: myStyle(10, textColorLight, FontWeight.normal),
+                                                  maxLines: 3,),
+                                                SizedBox(height: 5,),
+                                                Row(
+                                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                                                  children: [
+                                                    BorderButton(
+                                                      onTap: ((){}),
+                                                      title: Text("Graphic Design",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                      height: 30,
+                                                      width: 70,
+                                                    ),
+                                                    BorderButton(
+                                                      onTap: ((){}),
+                                                      title: Text("$result",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                      height: 30,
+                                                      width: 50,
+                                                    ),
+                                                    BorderButton(
+                                                      onTap: ((){}),
+                                                      title: Row(
+                                                        crossAxisAlignment: CrossAxisAlignment.center,
+                                                        mainAxisAlignment: MainAxisAlignment.center,
+                                                        children: [
+                                                          Icon(Icons.location_on, color: textColorLight, size: 12,),
+                                                          Text("${allSmeGig[index].jobLocationCity}",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                        ],
+                                                      ),
+                                                      height: 30,
+                                                      width: 60,
+                                                    ),
+                                                    BorderButton(
+                                                      onTap: ((){}),
+                                                      title: Text("Single Gig",style: myStyle(8,textColorLight,FontWeight.w400),),
+                                                      height: 30,
+                                                      width: 60,
+                                                    ),
+                                                  ],
+                                                ),
+                                              ],
+                                            ),
                                           ),
                                         ),
+                                        onTap: (){},
                                       ),
                                     ],
+                                  ):SizedBox(
+                                  height: 0,
                                   );
                                 },
                                 separatorBuilder: (context, index) {
                                   return SizedBox(height: 5,);
                                 },
-                                itemCount: 3,
+                                itemCount: allSmeGig.length,
                               ),
                             ],
                           ),
+                        ):SizedBox(
+                          height: 1,
                         ),
                       ],
                     ),
