@@ -68,11 +68,9 @@ class _MyAppState extends State<MyApp> {
   Widget build(BuildContext context) {
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider(create: (_) {  return authProvider;  }),
-        ChangeNotifierProvider(create: (_) {  return StudentProfileProvider();  }),
-        ChangeNotifierProvider(create: (_) {
-          return GigProvider();
-        }),
+        ChangeNotifierProvider(create: (_) {  return authProvider;}),
+        ChangeNotifierProvider(create: (_) {  return StudentProfileProvider();}),
+        ChangeNotifierProvider(create: (_) {  return GigProvider();}),
 
       ],
       child: MaterialApp(
