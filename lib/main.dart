@@ -109,7 +109,7 @@ class _MyAppState extends State<MyApp> {
             CreateGigPage.id: (context) => CreateGigPage(),
             BottomNavBarPage.id: (context) => BottomNavBarPage(),
           },
-          home: NewsAndEventPage()),
+          home: SplashScreen()),
     );
   }
 }

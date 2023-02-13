@@ -74,7 +74,7 @@ class AppbarButton extends StatelessWidget {
         onTap: onTap,
         child: CircleAvatar(
           maxRadius: 15,
-          backgroundColor: Colors.white,
+          backgroundColor: primaryBoxColor,
           child: Icon(
             Icons.arrow_back_ios_new_outlined,
             color: Colors.black87,
@@ -84,4 +84,27 @@ class AppbarButton extends StatelessWidget {
       ),
     );
   }
+}
+
+customKnowMoreButton(){
+  return InkWell(
+    onTap: (){},
+    child: Container(
+      alignment: Alignment.center,
+      padding: EdgeInsets.symmetric(horizontal: 5),
+      height: 22,
+      width: 73,
+      decoration: BoxDecoration(
+        borderRadius: BorderRadius.circular(10),
+        border: Border.all(color: primaryColor),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          Text("Know More", style: myStylePoppins(9, primaryColor),),
+          Icon(Icons.arrow_forward_ios_outlined, size: 8, color: primaryColor,),
+        ],
+      ),
+    ),
+  );
 }
