@@ -22,6 +22,7 @@ final textColorLight = Color(0xFF979793);
 final primaryWhite = Colors.white;
 final borderColor = Color(0xffD5D5D5);
 final primaryBlack = Colors.black;
+final primaryBoxColor = Color(0xffF8F8F8);
 
 
 myStyle (double size,[Color? color,FontWeight ?fw]){

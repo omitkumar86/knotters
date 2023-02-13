@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:knotters/screen/profile/students_profile_page.dart';
 import 'package:knotters/widget/const.dart';
 import 'package:knotters/widget/custome_button.dart';
 
@@ -14,7 +15,7 @@ class _NewsAndEventPageState extends State<NewsAndEventPage> {
   Widget build(BuildContext context) {
     return SafeArea(
       child: Scaffold(
-        backgroundColor: scaffoldColor,
+        backgroundColor: primaryWhite,
         appBar: AppBar(
           leading: Padding(
             padding: EdgeInsets.symmetric(horizontal: 16),
@@ -22,6 +23,7 @@ class _NewsAndEventPageState extends State<NewsAndEventPage> {
               Navigator.of(context).pop();
             }),
           ),
+          backgroundColor: primaryWhite,
         ),
         body: Container(
           padding: EdgeInsets.all(16),
@@ -29,16 +31,33 @@ class _NewsAndEventPageState extends State<NewsAndEventPage> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                SingleChildScrollView(
+                Text("NEWS & EVENTS", style: myStylePoppins(16, primaryColor),),
+                Divider(),
+                SizedBox(height: 10,),
+                Container(
+                  width: double.infinity,
                   child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text("NEWS & EVENTS", style: myStylePoppins(16, primaryColor),),
-                      Divider(),
-                      SizedBox(height: 10,),
+                      ListView.separated(
+                          physics: NeverScrollableScrollPhysics(),
+                          shrinkWrap: true,
+                          itemBuilder: (context,index){
+                        return Column(
+                          children: [
+                            Container(
+                              width: double.infinity,
+                              height: 133,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(6),
+                                color: primaryBoxColor,
+                              ),
+                            ),
+                          ],
+                        );
+                      }, separatorBuilder: (context,index)=>SizedBox(height: 10,), itemCount: 5)
                     ],
                   ),
-                )
+                ),
               ],
             ),
           ),

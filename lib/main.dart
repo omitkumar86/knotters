@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:knotters/miscellaneous_screen/news_and_event_page.dart';
 import 'package:knotters/provider/auth_provider.dart';
 import 'package:knotters/provider/gig_provider.dart';
 import 'package:knotters/provider/student_profile_provider.dart';
@@ -108,7 +109,7 @@ class _MyAppState extends State<MyApp> {
             CreateGigPage.id: (context) => CreateGigPage(),
             BottomNavBarPage.id: (context) => BottomNavBarPage(),
           },
-          home: SplashScreen()),
+          home: NewsAndEventPage()),
     );
   }
 }
