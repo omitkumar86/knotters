@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:knotters/miscellaneous_screen/cookies_policy_page.dart';
+import 'package:knotters/miscellaneous_screen/news_and_event_page.dart';
 import 'package:knotters/miscellaneous_screen/privacy_policy_page.dart';
 import 'package:knotters/miscellaneous_screen/terms_of_service_page.dart';
 import 'package:knotters/miscellaneous_screen/trust_and_safety_page.dart';
@@ -340,7 +341,9 @@ customLogoutFunction(BuildContext context){
                       ),
                     ),
                   ),InkWell(
-                    onTap: () {},
+                    onTap: () {
+                      Navigator.of(context).push(MaterialPageRoute(builder: (context)=>NewsAndEventPage()));
+                    },
                     child: Container(
                       padding: EdgeInsets.symmetric(
                           horizontal: 10),
